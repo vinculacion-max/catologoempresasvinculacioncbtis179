@@ -1,784 +1,1282 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Bolsa de Vinculación · CBTIS No. 179</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@600;700;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;0,8..60,700;1,8..60,500&family=IBM+Plex+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>MathDuo — Temas Selectos de Matemáticas II</title>
 <style>
-  :root{
-    --paper:#F6F1E2;
-    --paper-soft:#FBF8EF;
-    --ink:#1E2A30;
-    --ink-soft:#4B5760;
-    --rail:#163A4D;
-    --rail-soft:#1F4F68;
-    --signal:#D9622B;
-    --signal-dark:#B94E1E;
-    --vigente:#2E6B49;      --vigente-bg:#E3EFE6;
-    --porvencer:#A6791F;    --porvencer-bg:#F4EAD2;
-    --vencido:#A23B36;      --vencido-bg:#F3E0DD;
-    --sindato:#665D52;      --sindato-bg:#EAE4D5;
-    --line:#D9CDAE;
-    --line-strong:#B7A982;
-    --shadow: 0 1px 0 var(--line-strong), 0 8px 18px -10px rgba(22,58,77,0.35);
-    --radius: 3px;
-    --display: "Big Shoulders Display", "Arial Narrow", sans-serif;
-    --body: "Source Serif 4", Georgia, "Times New Roman", serif;
-    --mono: "IBM Plex Mono", "Courier New", monospace;
-  }
+:root {
+  --green: #22c55e; --green-dark: #16a34a; --green-light: #dcfce7; --green-xlight: #f0fdf4;
+  --blue: #3b82f6; --blue-dark: #1d4ed8; --blue-light: #dbeafe; --blue-xlight: #eff6ff;
+  --orange: #f97316; --orange-dark: #c2410c; --orange-light: #fed7aa; --orange-xlight: #fff7ed;
+  --purple: #8b5cf6; --purple-dark: #6d28d9; --purple-light: #ede9fe; --purple-xlight: #f5f3ff;
+  --red: #ef4444; --red-dark: #b91c1c; --red-light: #fee2e2;
+  --gray-0: #fff; --gray-50: #f8fafc; --gray-100: #f1f5f9; --gray-200: #e2e8f0;
+  --gray-300: #cbd5e1; --gray-400: #94a3b8; --gray-500: #64748b;
+  --gray-600: #475569; --gray-700: #334155; --gray-800: #1e293b; --gray-900: #0f172a;
+  --radius: 12px; --radius-sm: 8px; --radius-xl: 20px;
+  --shadow: 0 2px 8px rgba(0,0,0,0.08);
+  --shadow-md: 0 4px 16px rgba(0,0,0,0.12);
+  --transition: 0.18s ease;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Segoe UI', system-ui, sans-serif; background: var(--gray-50); color: var(--gray-900); min-height: 100vh; }
+button { cursor: pointer; font-family: inherit; border: none; }
+input, select, textarea { font-family: inherit; }
 
-  *{box-sizing:border-box;}
-  html{scroll-behavior:smooth;}
-  body{
-    margin:0;
-    font-family:var(--body);
-    color:var(--ink);
-    background-color:var(--paper-soft);
-    background-image:
-      repeating-linear-gradient(0deg, rgba(22,58,77,0.05) 0px, rgba(22,58,77,0.05) 1px, transparent 1px, transparent 32px),
-      repeating-linear-gradient(90deg, rgba(22,58,77,0.05) 0px, rgba(22,58,77,0.05) 1px, transparent 1px, transparent 32px);
-    background-attachment:fixed;
-    line-height:1.5;
-    -webkit-font-smoothing:antialiased;
-  }
-  a{color:var(--rail);}
-  :focus-visible{outline:3px solid var(--signal); outline-offset:2px;}
+/* ─── SCREENS ──────────────────────────── */
+.screen { display: none; min-height: 100vh; }
+.screen.active { display: flex; flex-direction: column; }
 
-  /* ---------- Header ---------- */
-  .site-header{
-    background:var(--rail);
-    color:var(--paper);
-    position:relative;
-    padding:0 20px;
-    border-bottom:6px solid var(--signal);
-  }
-  .header-inner{
-    max-width:1140px;
-    margin:0 auto;
-    padding:34px 0 26px;
-    position:relative;
-  }
-  .folder-tab{
-    display:inline-block;
-    font-family:var(--mono);
-    font-size:.72rem;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    background:var(--signal);
-    color:#221206;
-    padding:5px 12px 5px 12px;
-    border-radius:2px 2px 0 0;
-    margin-bottom:14px;
-    font-weight:600;
-  }
-  .site-header h1{
-    font-family:var(--display);
-    font-weight:800;
-    font-size:clamp(2.1rem, 4.4vw, 3.4rem);
-    letter-spacing:.01em;
-    margin:0 0 6px;
-    line-height:1.02;
-    text-transform:uppercase;
-  }
-  .site-header p.subtitle{
-    font-family:var(--body);
-    font-style:italic;
-    font-size:clamp(1rem, 1.6vw, 1.2rem);
-    margin:0 0 14px;
-    color:#DCE7EC;
-    max-width:54ch;
-  }
-  .school-line{
-    font-family:var(--mono);
-    font-size:.78rem;
-    letter-spacing:.05em;
-    color:#AFC4CE;
-    border-top:1px solid rgba(255,255,255,0.18);
-    padding-top:12px;
-    display:flex;
-    flex-wrap:wrap;
-    gap:6px 18px;
-  }
-  .school-line strong{color:#EFE7D3; font-weight:600;}
+/* ─── LOGIN ──────────────────────────── */
+#loginScreen { background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%); align-items: center; justify-content: center; }
+.login-box { background: #fff; border-radius: 24px; padding: 2.5rem 2rem; width: 360px; max-width: 94vw; box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+.logo { text-align: center; margin-bottom: 1.5rem; }
+.logo-icon { font-size: 3rem; display: block; }
+.logo h1 { font-size: 1.8rem; font-weight: 800; color: var(--green-dark); }
+.logo p { color: var(--gray-500); font-size: 0.85rem; margin-top: 2px; }
+.login-field { margin-bottom: 1rem; }
+.login-field label { display: block; font-size: 0.82rem; font-weight: 600; color: var(--gray-600); margin-bottom: 4px; }
+.login-field input { width: 100%; padding: 0.65rem 0.9rem; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 0.95rem; transition: border-color var(--transition); outline: none; }
+.login-field input:focus { border-color: var(--green); }
+.btn-login { width: 100%; padding: 0.75rem; background: var(--green); color: #fff; border-radius: var(--radius-sm); font-size: 1rem; font-weight: 700; letter-spacing: 0.03em; transition: background var(--transition); margin-top: 0.5rem; }
+.btn-login:hover { background: var(--green-dark); }
+.login-err { color: var(--red); font-size: 0.82rem; margin-top: 0.5rem; text-align: center; min-height: 1.2em; }
 
-  /* ---------- Stats ---------- */
-  .stats-bar{
-    max-width:1140px;
-    margin:-22px auto 0;
-    padding:0 20px;
-    position:relative;
-    z-index:2;
-  }
-  .stats-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(150px,1fr));
-    background:var(--paper);
-    border:1px solid var(--line-strong);
-    box-shadow:var(--shadow);
-  }
-  .stat{
-    padding:16px 18px;
-    border-right:1px solid var(--line);
-  }
-  .stat:last-child{border-right:none;}
-  .stat .n{
-    font-family:var(--display);
-    font-weight:800;
-    font-size:1.9rem;
-    color:var(--rail);
-    display:block;
-    line-height:1;
-  }
-  .stat .l{
-    font-family:var(--mono);
-    font-size:.68rem;
-    text-transform:uppercase;
-    letter-spacing:.08em;
-    color:var(--ink-soft);
-    display:block;
-    margin-top:4px;
-  }
+/* ─── TOP BAR ──────────────────────────── */
+.topbar { background: #fff; border-bottom: 1px solid var(--gray-200); padding: 0 1.5rem; height: 60px; display: flex; align-items: center; justify-content: space-between; position: sticky; top: 0; z-index: 100; }
+.topbar-brand { display: flex; align-items: center; gap: 10px; font-weight: 800; font-size: 1.2rem; color: var(--green-dark); }
+.topbar-brand span { font-size: 1.5rem; }
+.topbar-right { display: flex; align-items: center; gap: 12px; }
+.user-chip { display: flex; align-items: center; gap: 8px; background: var(--gray-100); border-radius: 999px; padding: 5px 12px 5px 5px; }
+.avatar { width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: 700; font-size: 0.8rem; color: #fff; }
+.user-chip .name { font-size: 0.85rem; font-weight: 600; color: var(--gray-700); }
+.user-chip .role-badge { font-size: 0.7rem; background: var(--green-light); color: var(--green-dark); border-radius: 999px; padding: 1px 7px; font-weight: 600; }
+.btn-logout { padding: 5px 14px; background: var(--gray-100); color: var(--gray-600); border-radius: 999px; font-size: 0.82rem; font-weight: 600; transition: all var(--transition); }
+.btn-logout:hover { background: var(--red-light); color: var(--red-dark); }
 
-  /* ---------- Main / Filters ---------- */
-  main{max-width:1140px; margin:0 auto; padding:30px 20px 70px;}
+/* ─── SIDEBAR NAV ──────────────────────────── */
+.app-layout { display: flex; flex: 1; min-height: calc(100vh - 60px); }
+.sidebar { width: 220px; background: #fff; border-right: 1px solid var(--gray-200); padding: 1.2rem 0.8rem; display: flex; flex-direction: column; gap: 4px; flex-shrink: 0; }
+.nav-item { display: flex; align-items: center; gap: 10px; padding: 0.6rem 0.8rem; border-radius: var(--radius-sm); cursor: pointer; font-size: 0.9rem; font-weight: 500; color: var(--gray-600); transition: all var(--transition); border: none; background: none; width: 100%; text-align: left; }
+.nav-item:hover { background: var(--gray-100); color: var(--gray-900); }
+.nav-item.active { background: var(--green-light); color: var(--green-dark); font-weight: 700; }
+.nav-icon { font-size: 1.2rem; width: 24px; text-align: center; }
+.nav-sep { height: 1px; background: var(--gray-200); margin: 6px 0.8rem; }
 
-  .drawer{
-    background:var(--paper);
-    border:1px solid var(--line-strong);
-    box-shadow:var(--shadow);
-    margin-top:26px;
-    position:relative;
-  }
-  .drawer-label{
-    position:absolute;
-    top:-13px;
-    left:18px;
-    background:var(--rail);
-    color:var(--paper);
-    font-family:var(--mono);
-    font-size:.7rem;
-    letter-spacing:.14em;
-    text-transform:uppercase;
-    padding:4px 12px;
-    font-weight:600;
-  }
-  .drawer-body{padding:30px 20px 18px;}
+/* ─── MAIN CONTENT ──────────────────────────── */
+.main { flex: 1; padding: 2rem; overflow-y: auto; max-width: 900px; }
 
-  .field-row{
-    display:flex;
-    flex-wrap:wrap;
-    gap:16px;
-    margin-bottom:18px;
-  }
-  .field{flex:1 1 220px; display:flex; flex-direction:column; gap:6px;}
-  .field label{
-    font-family:var(--mono);
-    font-size:.68rem;
-    text-transform:uppercase;
-    letter-spacing:.08em;
-    color:var(--ink-soft);
-  }
-  .field input[type="search"], .field select{
-    font-family:var(--body);
-    font-size:1rem;
-    padding:9px 11px;
-    border:1px solid var(--line-strong);
-    background:var(--paper-soft);
-    color:var(--ink);
-    border-radius:var(--radius);
-  }
-  .field input[type="search"]:focus, .field select:focus{
-    border-color:var(--rail);
-  }
+/* ─── PANEL / CARD ──────────────────────────── */
+.panel { background: #fff; border-radius: var(--radius); border: 1px solid var(--gray-200); padding: 1.5rem; margin-bottom: 1.2rem; }
+.panel-title { font-size: 1.1rem; font-weight: 700; color: var(--gray-800); margin-bottom: 1rem; display: flex; align-items: center; gap: 8px; }
 
-  .segmented{
-    display:flex;
-    border:1px solid var(--line-strong);
-    border-radius:var(--radius);
-    overflow:hidden;
-    width:fit-content;
-  }
-  .segmented button{
-    font-family:var(--mono);
-    font-size:.78rem;
-    letter-spacing:.03em;
-    padding:9px 14px;
-    background:var(--paper-soft);
-    border:none;
-    border-right:1px solid var(--line-strong);
-    color:var(--ink-soft);
-    cursor:pointer;
-  }
-  .segmented button:last-child{border-right:none;}
-  .segmented button[aria-pressed="true"]{
-    background:var(--rail);
-    color:var(--paper);
-  }
-  .segmented button:hover:not([aria-pressed="true"]){background:var(--paper); color:var(--ink);}
+/* ─── TABS ──────────────────────────── */
+.tab-bar { display: flex; gap: 4px; margin-bottom: 1.5rem; background: var(--gray-100); border-radius: var(--radius-sm); padding: 4px; }
+.tab { padding: 0.5rem 1.2rem; border-radius: 6px; font-size: 0.88rem; font-weight: 600; cursor: pointer; color: var(--gray-500); border: none; background: none; transition: all var(--transition); }
+.tab.active { background: #fff; color: var(--gray-900); box-shadow: var(--shadow); }
 
-  .chip-group{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:6px;}
-  .chip{
-    display:inline-flex;
-    align-items:center;
-    gap:6px;
-    font-family:var(--mono);
-    font-size:.76rem;
-    letter-spacing:.02em;
-    padding:7px 12px 7px 9px;
-    border:1px solid var(--line-strong);
-    background:var(--paper-soft);
-    color:var(--ink);
-    border-radius:20px;
-    cursor:pointer;
-    transition:background .12s, color .12s, border-color .12s;
-  }
-  .chip svg{width:14px; height:14px; flex:none;}
-  .chip[aria-pressed="true"]{
-    background:var(--signal);
-    border-color:var(--signal-dark);
-    color:#241204;
-  }
-  .chip:hover:not([aria-pressed="true"]){border-color:var(--rail); }
-  .chip .count{opacity:.65; font-size:.7em;}
+/* ─── XP BADGES ──────────────────────────── */
+.xp-pill { display: inline-flex; align-items: center; gap: 4px; background: var(--orange-light); color: var(--orange-dark); border-radius: 999px; padding: 2px 10px; font-size: 0.78rem; font-weight: 700; }
+.streak-pill { display: inline-flex; align-items: center; gap: 4px; background: var(--orange-xlight); color: var(--orange-dark); border-radius: 999px; padding: 2px 10px; font-size: 0.78rem; font-weight: 700; }
 
-  .filter-footer{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    flex-wrap:wrap;
-    gap:10px;
-    border-top:1px solid var(--line);
-    padding-top:14px;
-    margin-top:8px;
-  }
-  .result-count{
-    font-family:var(--mono);
-    font-size:.82rem;
-    color:var(--ink-soft);
-  }
-  .result-count strong{color:var(--rail); font-size:1rem;}
-  .btn-clear{
-    font-family:var(--mono);
-    font-size:.76rem;
-    letter-spacing:.03em;
-    background:none;
-    border:1px solid var(--line-strong);
-    color:var(--ink-soft);
-    padding:8px 14px;
-    border-radius:var(--radius);
-    cursor:pointer;
-  }
-  .btn-clear:hover{border-color:var(--vencido); color:var(--vencido);}
+/* ─── PARCIAL CARDS ──────────────────────────── */
+.parcial-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+.parcial-card { border-radius: var(--radius); border: 2px solid var(--gray-200); padding: 1rem; text-align: center; cursor: pointer; transition: all var(--transition); position: relative; overflow: hidden; }
+.parcial-card:hover { border-color: var(--green); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+.parcial-card.active-parcial { border-color: var(--green); background: var(--green-xlight); }
+.parcial-card.locked { opacity: 0.55; cursor: not-allowed; }
+.parcial-card .p-num { font-size: 2rem; font-weight: 800; }
+.parcial-card .p-title { font-size: 0.8rem; color: var(--gray-500); font-weight: 600; margin-top: 2px; }
+.parcial-card .p-progress { height: 6px; background: var(--gray-200); border-radius: 999px; margin-top: 10px; overflow: hidden; }
+.parcial-card .p-bar { height: 100%; border-radius: 999px; transition: width 0.6s ease; }
+.parcial-card .p-pct { font-size: 0.72rem; color: var(--gray-400); margin-top: 4px; }
+.lock-icon { position: absolute; top: 8px; right: 8px; font-size: 1rem; }
 
-  /* ---------- Results grid ---------- */
-  .results{margin-top:36px;}
-  .grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fill, minmax(270px,1fr));
-    gap:30px 22px;
-  }
+/* ─── TOPIC PATH (Duolingo style) ──────────────────────────── */
+.topic-path { display: flex; flex-direction: column; gap: 1rem; }
+.topic-node { display: flex; align-items: center; gap: 14px; }
+.topic-node.right { flex-direction: row-reverse; }
+.node-bubble { width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.8rem; border: 4px solid transparent; cursor: pointer; transition: all var(--transition); flex-shrink: 0; position: relative; }
+.node-bubble:hover { transform: scale(1.1); }
+.node-bubble.done { border-color: var(--green); background: var(--green-light); }
+.node-bubble.active-node { border-color: var(--blue); background: var(--blue-light); box-shadow: 0 0 0 4px var(--blue-light); }
+.node-bubble.locked-node { opacity: 0.4; cursor: not-allowed; background: var(--gray-100); border-color: var(--gray-300); }
+.node-connector { width: 4px; height: 32px; background: var(--gray-200); margin-left: 30px; border-radius: 2px; }
+.node-connector.done-conn { background: var(--green); }
+.node-info h3 { font-size: 0.95rem; font-weight: 700; color: var(--gray-800); }
+.node-info p { font-size: 0.8rem; color: var(--gray-500); margin-top: 2px; }
+.node-stars { display: flex; gap: 2px; margin-top: 3px; }
+.star { color: var(--gray-300); font-size: 0.9rem; }
+.star.filled { color: #f59e0b; }
+.node-badge { position: absolute; top: -4px; right: -4px; width: 22px; height: 22px; border-radius: 50%; background: var(--green); color: #fff; font-size: 0.65rem; font-weight: 800; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; }
 
-  .card{
-    position:relative;
-    margin-top:16px;
-    background:var(--paper);
-    border:1px solid var(--line-strong);
-    box-shadow:var(--shadow);
-    padding:20px 16px 16px;
-    cursor:pointer;
-    display:flex;
-    flex-direction:column;
-    gap:10px;
-    transition:transform .12s ease, box-shadow .12s ease;
-    text-align:left;
-    font-family:inherit;
-    color:inherit;
-  }
-  .card:hover, .card:focus-visible{
-    transform:translateY(-3px);
-    box-shadow:0 1px 0 var(--line-strong), 0 14px 22px -10px rgba(22,58,77,0.45);
-  }
-  .card .tab{
-    position:absolute;
-    top:-13px;
-    left:14px;
-    background:var(--rail);
-    color:var(--paper);
-    font-family:var(--mono);
-    font-size:.66rem;
-    letter-spacing:.07em;
-    padding:3px 9px;
-    border-radius:2px 2px 0 0;
-  }
-  .card .stamp{
-    position:absolute;
-    top:14px;
-    right:12px;
-    border:2px solid currentColor;
-    border-radius:4px;
-    padding:2px 9px;
-    font-family:var(--mono);
-    font-weight:700;
-    font-size:.62rem;
-    letter-spacing:.07em;
-    text-transform:uppercase;
-    opacity:.88;
-    background:rgba(255,255,255,0.35);
-  }
-  .card .empresa{
-    font-family:var(--display);
-    font-weight:700;
-    font-size:1.18rem;
-    line-height:1.15;
-    margin:14px 0 0;
-    padding-right:70px;
-    text-transform:uppercase;
-    color:var(--rail);
-  }
-  .card .eyebrow{
-    font-family:var(--mono);
-    font-size:.7rem;
-    letter-spacing:.05em;
-    color:var(--ink-soft);
-    text-transform:uppercase;
-  }
-  .card .careers{display:flex; flex-wrap:wrap; gap:6px; margin-top:2px;}
-  .pill{
-    display:inline-flex;
-    align-items:center;
-    gap:4px;
-    font-family:var(--mono);
-    font-size:.66rem;
-    letter-spacing:.02em;
-    padding:3px 8px;
-    border:1px solid var(--line-strong);
-    border-radius:14px;
-    color:var(--ink-soft);
-  }
-  .pill svg{width:11px; height:11px;}
-  .card .meta{
-    margin-top:auto;
-    border-top:1px solid var(--line);
-    padding-top:10px;
-    display:flex;
-    flex-direction:column;
-    gap:4px;
-    font-size:.85rem;
-  }
-  .card .meta .row{display:flex; gap:7px; align-items:flex-start;}
-  .card .meta svg{width:14px; height:14px; flex:none; margin-top:3px; color:var(--ink-soft);}
-  .card .meta span{color:var(--ink-soft);}
+/* ─── QUIZ ──────────────────────────── */
+.quiz-wrap { max-width: 680px; }
+.quiz-progress-bar { height: 10px; background: var(--gray-200); border-radius: 999px; margin-bottom: 1.5rem; overflow: hidden; }
+.quiz-progress-inner { height: 100%; background: var(--green); border-radius: 999px; transition: width 0.4s ease; }
+.quiz-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.8rem; }
+.quiz-q-num { font-size: 0.82rem; color: var(--gray-400); font-weight: 600; }
+.quiz-xp { font-size: 0.82rem; color: var(--orange-dark); font-weight: 700; }
+.quiz-question { font-size: 1.1rem; font-weight: 700; color: var(--gray-800); margin-bottom: 1.5rem; line-height: 1.5; }
+.quiz-options { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1.5rem; }
+.quiz-opt { padding: 0.9rem 1rem; border: 2px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 0.95rem; background: #fff; color: var(--gray-700); text-align: left; transition: all var(--transition); font-weight: 500; line-height: 1.4; }
+.quiz-opt:hover:not(:disabled) { border-color: var(--blue); background: var(--blue-xlight); color: var(--blue-dark); }
+.quiz-opt.selected { border-color: var(--blue); background: var(--blue-xlight); color: var(--blue-dark); }
+.quiz-opt.correct { border-color: var(--green); background: var(--green-light); color: var(--green-dark); }
+.quiz-opt.wrong { border-color: var(--red); background: var(--red-light); color: var(--red-dark); }
+.quiz-opt:disabled { cursor: default; }
+.quiz-feedback { border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 1.2rem; display: none; }
+.quiz-feedback.show { display: block; }
+.quiz-feedback.correct-fb { background: var(--green-light); border-left: 4px solid var(--green); }
+.quiz-feedback.wrong-fb { background: var(--red-light); border-left: 4px solid var(--red); }
+.quiz-feedback p { font-size: 0.9rem; font-weight: 600; }
+.quiz-feedback .explain { font-size: 0.85rem; color: var(--gray-600); margin-top: 4px; font-weight: 400; }
+.btn-next { padding: 0.7rem 2rem; background: var(--green); color: #fff; border-radius: var(--radius-sm); font-size: 0.95rem; font-weight: 700; transition: all var(--transition); display: none; }
+.btn-next.show { display: inline-block; }
+.btn-next:hover { background: var(--green-dark); }
+.quiz-lives { display: flex; gap: 4px; }
+.life { font-size: 1.1rem; }
 
-  .empty-state{
-    display:none;
-    text-align:center;
-    padding:60px 20px;
-    border:1px dashed var(--line-strong);
-    background:var(--paper);
-    margin-top:16px;
-  }
-  .empty-state.show{display:block;}
-  .empty-state h3{font-family:var(--display); text-transform:uppercase; color:var(--rail); margin:0 0 8px;}
-  .empty-state p{color:var(--ink-soft); margin:0 0 16px;}
+/* ─── RESULTS SCREEN ──────────────────────────── */
+.result-box { text-align: center; padding: 2rem; }
+.result-emoji { font-size: 4rem; display: block; margin-bottom: 0.5rem; }
+.result-box h2 { font-size: 1.8rem; font-weight: 800; margin-bottom: 0.5rem; }
+.result-stats { display: flex; justify-content: center; gap: 2rem; margin: 1.5rem 0; }
+.r-stat { text-align: center; }
+.r-stat .val { font-size: 2rem; font-weight: 800; }
+.r-stat .lbl { font-size: 0.78rem; color: var(--gray-400); font-weight: 600; margin-top: 2px; }
+.btn-back-map { padding: 0.75rem 2rem; background: var(--green); color: #fff; border-radius: var(--radius-sm); font-size: 1rem; font-weight: 700; margin-top: 1rem; transition: all var(--transition); }
+.btn-back-map:hover { background: var(--green-dark); }
 
-  /* ---------- Modal ---------- */
-  dialog#detail{
-    border:none;
-    border-radius:0;
-    padding:0;
-    width:min(560px, 92vw);
-    box-shadow:0 24px 60px -10px rgba(0,0,0,0.5);
-    background:var(--paper);
-    border-top:6px solid var(--signal);
-  }
-  dialog#detail::backdrop{background:rgba(15,26,32,0.55);}
-  .modal-head{
-    background:var(--rail);
-    color:var(--paper);
-    padding:18px 22px;
-    display:flex;
-    justify-content:space-between;
-    align-items:flex-start;
-    gap:14px;
-  }
-  .modal-head h2{
-    font-family:var(--display);
-    text-transform:uppercase;
-    font-size:1.3rem;
-    margin:0;
-    line-height:1.15;
-  }
-  .modal-head .folio{font-family:var(--mono); font-size:.7rem; color:#AFC4CE; letter-spacing:.08em;}
-  .modal-close{
-    background:none; border:none; color:var(--paper); cursor:pointer;
-    font-size:1.4rem; line-height:1; padding:2px 6px;
-  }
-  .modal-body{padding:20px 22px 24px; max-height:70vh; overflow-y:auto;}
-  .modal-stamp{
-    display:inline-block;
-    border:2px solid currentColor;
-    border-radius:4px;
-    padding:3px 10px;
-    font-family:var(--mono);
-    font-weight:700;
-    font-size:.68rem;
-    letter-spacing:.07em;
-    text-transform:uppercase;
-    margin-bottom:14px;
-  }
-  .detail-grid{display:grid; grid-template-columns:1fr 1fr; gap:14px 18px; margin-bottom:16px;}
-  .detail-grid .full{grid-column:1 / -1;}
-  .detail-item label{
-    display:block;
-    font-family:var(--mono);
-    font-size:.66rem;
-    text-transform:uppercase;
-    letter-spacing:.07em;
-    color:var(--ink-soft);
-    margin-bottom:3px;
-  }
-  .detail-item div{font-size:.95rem;}
-  .detail-item .muted{color:var(--ink-soft); font-style:italic; font-size:.88rem;}
-  .obs-box{
-    border:1px solid var(--line);
-    background:var(--paper-soft);
-    padding:10px 12px;
-    font-size:.88rem;
-    color:var(--ink-soft);
-  }
+/* ─── TEACHER DASHBOARD ──────────────────────────── */
+.stats-row { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; margin-bottom: 1.5rem; }
+.stat-card { background: #fff; border-radius: var(--radius); padding: 1rem 1.2rem; border: 1px solid var(--gray-200); }
+.stat-card .s-val { font-size: 2rem; font-weight: 800; }
+.stat-card .s-lbl { font-size: 0.78rem; color: var(--gray-400); font-weight: 600; }
+.student-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+.student-table th { background: var(--gray-50); font-size: 0.78rem; font-weight: 700; color: var(--gray-500); text-transform: uppercase; letter-spacing: 0.05em; padding: 0.6rem 1rem; text-align: left; border-bottom: 1px solid var(--gray-200); }
+.student-table td { padding: 0.75rem 1rem; border-bottom: 1px solid var(--gray-100); vertical-align: middle; }
+.student-table tr:last-child td { border-bottom: none; }
+.student-table tr:hover td { background: var(--gray-50); }
+.progress-mini { height: 6px; background: var(--gray-200); border-radius: 999px; overflow: hidden; min-width: 80px; }
+.progress-mini-inner { height: 100%; background: var(--green); border-radius: 999px; }
+.grade-badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.8rem; font-weight: 700; }
+.grade-A { background: var(--green-light); color: var(--green-dark); }
+.grade-B { background: var(--blue-light); color: var(--blue-dark); }
+.grade-C { background: var(--orange-light); color: var(--orange-dark); }
+.grade-D { background: var(--red-light); color: var(--red-dark); }
 
-  footer{
-    max-width:1140px;
-    margin:0 auto;
-    padding:0 20px 50px;
-    font-family:var(--mono);
-    font-size:.74rem;
-    color:var(--ink-soft);
-    line-height:1.7;
-  }
-  footer .rule{border-top:1px solid var(--line); margin:0 0 16px;}
+/* ─── TASKS (TAREAS) ──────────────────────────── */
+.task-card { border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); padding: 1rem; margin-bottom: 0.8rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 1rem; }
+.task-card .task-info h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 2px; }
+.task-card .task-info p { font-size: 0.82rem; color: var(--gray-500); }
+.task-card .task-badge { flex-shrink: 0; }
+.badge { display: inline-block; padding: 2px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; }
+.badge-pending { background: var(--orange-light); color: var(--orange-dark); }
+.badge-done { background: var(--green-light); color: var(--green-dark); }
+.badge-overdue { background: var(--red-light); color: var(--red-dark); }
+.btn-do-task { padding: 5px 14px; background: var(--blue); color: #fff; border-radius: 6px; font-size: 0.82rem; font-weight: 700; transition: all var(--transition); }
+.btn-do-task:hover { background: var(--blue-dark); }
+.btn-sm { padding: 5px 12px; border-radius: 6px; font-size: 0.82rem; font-weight: 600; transition: all var(--transition); cursor: pointer; }
+.btn-sm-green { background: var(--green); color: #fff; border: none; }
+.btn-sm-green:hover { background: var(--green-dark); }
+.btn-sm-red { background: var(--red-light); color: var(--red-dark); border: none; }
+.btn-sm-red:hover { background: var(--red); color: #fff; }
+.btn-sm-gray { background: var(--gray-100); color: var(--gray-700); border: none; }
+.btn-sm-gray:hover { background: var(--gray-200); }
 
-  @media (max-width:640px){
-    .header-inner{padding:26px 0 20px;}
-    .drawer-body{padding:24px 14px 14px;}
-    .card .empresa{font-size:1.05rem;}
-    .detail-grid{grid-template-columns:1fr;}
-  }
+/* ─── ADMIN / USERS ──────────────────────────── */
+.user-row { display: flex; align-items: center; justify-content: space-between; padding: 0.8rem; border-bottom: 1px solid var(--gray-100); gap: 1rem; }
+.user-row:last-child { border-bottom: none; }
+.user-row .u-name { font-weight: 700; font-size: 0.92rem; }
+.user-row .u-info { font-size: 0.78rem; color: var(--gray-400); }
+.user-actions { display: flex; gap: 6px; align-items: center; }
+.role-chip { padding: 2px 10px; border-radius: 999px; font-size: 0.75rem; font-weight: 700; }
+.role-admin { background: var(--purple-light); color: var(--purple-dark); }
+.role-teacher { background: var(--blue-light); color: var(--blue-dark); }
+.role-student { background: var(--green-light); color: var(--green-dark); }
+.form-row { display: flex; gap: 0.7rem; flex-wrap: wrap; margin-bottom: 0.8rem; }
+.form-row input, .form-row select { padding: 0.5rem 0.75rem; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 0.88rem; outline: none; flex: 1; min-width: 140px; }
+.form-row input:focus, .form-row select:focus { border-color: var(--green); }
 
-  @media (prefers-reduced-motion: reduce){
-    *{transition:none !important; scroll-behavior:auto !important;}
-  }
+/* ─── RANKING ──────────────────────────── */
+.rank-item { display: flex; align-items: center; gap: 12px; padding: 0.75rem; border-radius: var(--radius-sm); transition: background var(--transition); }
+.rank-item:hover { background: var(--gray-50); }
+.rank-num { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 0.82rem; font-weight: 800; flex-shrink: 0; }
+.rank-1 { background: #fef08a; color: #854d0e; }
+.rank-2 { background: var(--gray-200); color: var(--gray-700); }
+.rank-3 { background: var(--orange-light); color: var(--orange-dark); }
+.rank-other { background: var(--gray-100); color: var(--gray-500); }
+.rank-name { flex: 1; font-weight: 600; font-size: 0.92rem; }
+.rank-xp { font-size: 0.88rem; font-weight: 700; color: var(--orange-dark); }
+
+/* ─── MISC ──────────────────────────── */
+.empty-state { text-align: center; padding: 3rem; color: var(--gray-400); }
+.empty-state .e-icon { font-size: 3rem; display: block; margin-bottom: 0.5rem; }
+.section-title { font-size: 1.3rem; font-weight: 800; color: var(--gray-900); margin-bottom: 0.3rem; }
+.section-sub { font-size: 0.88rem; color: var(--gray-500); margin-bottom: 1.5rem; }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 200; align-items: center; justify-content: center; }
+.modal-overlay.show { display: flex; }
+.modal { background: #fff; border-radius: var(--radius); padding: 1.5rem; max-width: 460px; width: 94%; box-shadow: var(--shadow-md); }
+.modal h3 { font-size: 1.1rem; font-weight: 800; margin-bottom: 1rem; }
+.modal .form-field { margin-bottom: 0.8rem; }
+.modal .form-field label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--gray-600); margin-bottom: 3px; }
+.modal .form-field input, .modal .form-field select { width: 100%; padding: 0.55rem 0.8rem; border: 1.5px solid var(--gray-200); border-radius: var(--radius-sm); font-size: 0.9rem; outline: none; }
+.modal .form-field input:focus, .modal .form-field select:focus { border-color: var(--green); }
+.modal-actions { display: flex; gap: 0.6rem; justify-content: flex-end; margin-top: 1rem; }
+.ai-bubble { background: var(--blue-xlight); border-left: 4px solid var(--blue); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; padding: 0.8rem 1rem; margin-bottom: 1rem; font-size: 0.88rem; color: var(--gray-700); }
+.ai-bubble strong { color: var(--blue-dark); }
+
+@media (max-width: 640px) {
+  .sidebar { display: none; }
+  .stats-row { grid-template-columns: repeat(2, 1fr); }
+  .parcial-grid { grid-template-columns: 1fr; }
+  .quiz-options { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-inner">
-    <span class="folder-tab">Ficha C-179 · Vinculación</span>
-    <h1>Bolsa de Vinculación</h1>
-    <p class="subtitle">Directorio de empresas e instituciones con convenio vigente para servicio social, prácticas profesionales y educación dual.</p>
-    <div class="school-line">
-      <span><strong>CBTIS No. 179</strong></span>
-      <span>Tulancingo de Bravo, Hidalgo</span>
-      <span id="lastUpdate">Actualizado a partir del padrón de convenios</span>
+<!-- ═══════════ LOGIN ═══════════ -->
+<div id="loginScreen" class="screen active">
+  <div class="login-box">
+    <div class="logo">
+      <span class="logo-icon">📐</span>
+      <h1>MathDuo</h1>
+      <p>Temas Selectos de Matemáticas II · CBTIS/CETIS</p>
     </div>
+    <div class="login-field">
+      <label>Usuario</label>
+      <input id="loginUser" type="text" placeholder="Escribe tu usuario" autocomplete="username">
+    </div>
+    <div class="login-field">
+      <label>Contraseña</label>
+      <input id="loginPass" type="password" placeholder="Contraseña" autocomplete="current-password">
+    </div>
+    <button class="btn-login" onclick="doLogin()">Entrar</button>
+    <div class="login-err" id="loginErr"></div>
+    <p style="text-align:center;font-size:0.75rem;color:var(--gray-400);margin-top:1rem;">Admin: <b>admin</b> / <b>12345</b></p>
   </div>
-</header>
-
-<div class="stats-bar">
-  <div class="stats-grid" id="statsGrid"></div>
 </div>
 
-<main>
-  <section class="drawer" aria-label="Filtros del catálogo">
-    <span class="drawer-label">Buscar en el catálogo</span>
-    <div class="drawer-body">
-      <div class="field-row">
-        <div class="field">
-          <label for="searchInput">Empresa o institución</label>
-          <input type="search" id="searchInput" placeholder="Ej. Ferretería, Hielo Ártico, Ayuntamiento…" autocomplete="off">
-        </div>
-        <div class="field">
-          <label for="municipioSelect">Ubicación / municipio</label>
-          <select id="municipioSelect">
-            <option value="all">Todas las ubicaciones</option>
-          </select>
-        </div>
-        <div class="field" style="flex:0 0 auto;">
-          <label>Vigencia del convenio</label>
-          <div class="segmented" id="statusSegmented" role="group" aria-label="Filtrar por vigencia del convenio">
-            <button type="button" data-status="recomendado" aria-pressed="true">Disponibles</button>
-            <button type="button" data-status="vigente" aria-pressed="false">Solo vigentes</button>
-            <button type="button" data-status="todos" aria-pressed="false">Todos</button>
-          </div>
+<!-- ═══════════ APP ═══════════ -->
+<div id="appScreen" class="screen">
+  <!-- TOP BAR -->
+  <div class="topbar">
+    <div class="topbar-brand"><span>📐</span> MathDuo</div>
+    <div class="topbar-right">
+      <div class="streak-pill">🔥 <span id="topStreak">0</span></div>
+      <div class="xp-pill">⚡ <span id="topXP">0</span> XP</div>
+      <div class="user-chip">
+        <div class="avatar" id="topAvatar" style="background:var(--green)">--</div>
+        <div>
+          <div class="name" id="topName">--</div>
+          <div class="role-badge" id="topRole">--</div>
         </div>
       </div>
-
-      <div class="field">
-        <label id="careerLabel">Carrera / especialidad</label>
-        <div class="chip-group" id="careerChips" role="group" aria-labelledby="careerLabel"></div>
-      </div>
-
-      <div class="filter-footer">
-        <p class="result-count" id="resultCount" aria-live="polite"></p>
-        <button type="button" class="btn-clear" id="clearBtn">Limpiar filtros</button>
-      </div>
+      <button class="btn-logout" onclick="doLogout()">Salir</button>
     </div>
-  </section>
-
-  <section class="results">
-    <div class="grid" id="grid"></div>
-    <div class="empty-state" id="emptyState">
-      <h3>Sin coincidencias</h3>
-      <p>No encontramos empresas con esos filtros. Prueba quitando algún filtro o cambia la ortografía.</p>
-      <button type="button" class="btn-clear" id="emptyClearBtn">Limpiar filtros</button>
-    </div>
-  </section>
-</main>
-
-<dialog id="detail" aria-labelledby="detailTitle">
-  <div class="modal-head">
-    <div>
-      <p class="folio" id="detailFolio">FICHA</p>
-      <h2 id="detailTitle">—</h2>
-    </div>
-    <button type="button" class="modal-close" id="modalCloseBtn" aria-label="Cerrar ficha">✕</button>
   </div>
-  <div class="modal-body" id="detailBody"></div>
-</dialog>
 
-<footer>
-  <div class="rule"></div>
-  <p>Este directorio se elaboró a partir del padrón interno de convenios de vinculación del plantel. Antes de presentarte a una empresa para servicio social, prácticas profesionales o educación dual, confirma la información de contacto y la vigencia con el Departamento de Vinculación, ya que algunos datos pueden cambiar.</p>
-</footer>
+  <!-- LAYOUT -->
+  <div class="app-layout">
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+      <button class="nav-item active" data-view="home" onclick="showView('home',this)">
+        <span class="nav-icon">🏠</span> Inicio
+      </button>
+      <button class="nav-item" data-view="aprende" onclick="showView('aprende',this)">
+        <span class="nav-icon">📚</span> Aprender
+      </button>
+      <button class="nav-item" data-view="tareas" onclick="showView('tareas',this)">
+        <span class="nav-icon">📋</span> Tareas
+      </button>
+      <button class="nav-item" data-view="ranking" onclick="showView('ranking',this)">
+        <span class="nav-icon">🏆</span> Ranking
+      </button>
+      <div class="nav-sep"></div>
+      <!-- Teacher / Admin only items injected here -->
+      <div id="teacherNav"></div>
+    </div>
 
-<script id="convenios-data" type="application/json">
-[{"folio": "001", "empresa": "Hielo Artico", "estatus": "Sin dato", "tipoInstitucion": "No especificado", "municipio": "Tulancingo", "giro": "No especificado", "tipoConvenio": "No especificado", "estado": "HIDALGO", "domicilio": null, "telefono": null, "contacto": null, "cargo": null, "email": null, "observaciones": null, "inicio": "26/09/2018", "termino": "26/09/2023", "carreras": ["No especificada"]}, {"folio": "002", "empresa": "Compurent", "estatus": "Sin dato", "tipoInstitucion": "No especificado", "municipio": "Tulancingo", "giro": "No especificado", "tipoConvenio": "No especificado", "estado": "HIDALGO", "domicilio": null, "telefono": null, "contacto": null, "cargo": null, "email": null, "observaciones": null, "inicio": "20/11/2018", "termino": "20/11/2023", "carreras": ["No especificada"]}, {"folio": "003", "empresa": "Consultoria Y Diseño Arquitectonicos", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Educación Dual", "estado": "HIDALGO", "domicilio": "Molino Del Rey 302-2", "telefono": "7757849193", "contacto": "Jehvor Rodriguez Rodriguez", "cargo": "Propietario", "email": null, "observaciones": null, "inicio": "07/01/2019", "termino": "19/01/2024", "carreras": ["No especificada"]}, {"folio": "004", "empresa": "Capasc Hh", "estatus": "Vencido", "tipoInstitucion": "No especificado", "municipio": "Cuautepec", "giro": "No especificado", "tipoConvenio": "No especificado", "estado": "HIDALGO", "domicilio": "Benito Juarez 177", "telefono": "7757703600", "contacto": "Joaqquin German Gayosso", "cargo": "Director General", "email": null, "observaciones": null, "inicio": "14/01/2019", "termino": "14/01/2024", "carreras": ["No especificada"]}, {"folio": "005", "empresa": "Tienda Imss Sntss No. 121 Tulancingo", "estatus": "Vencido", "tipoInstitucion": "No especificado", "municipio": "Tulancingo", "giro": "No especificado", "tipoConvenio": "No especificado", "estado": "HIDALGO", "domicilio": "Lazaro Cardenas 107", "telefono": "7757539155", "contacto": "Jesus Macias Cruz", "cargo": "Administrador", "email": null, "observaciones": null, "inicio": "15/01/2019", "termino": "15/01/2024", "carreras": ["No especificada"]}, {"folio": "006", "empresa": "Centro Cultural Ricardo Garibay", "estatus": "Por vencer", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Gobierno/ Servicios Públicos", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Jardin Del Arte", "telefono": "7757543940", "contacto": "Alejandro Camacho", "cargo": "Director Municipal De Cultura", "email": null, "observaciones": null, "inicio": "21/01/2019", "termino": "21/01/2024", "carreras": ["No especificada"]}, {"folio": "007", "empresa": "Ingenieria Y Construccion De Tulancingo S.A. De C.V.", "estatus": "Por vencer", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Roble 116", "telefono": "7757532500", "contacto": "Amanda Guadalupe Barrios", "cargo": "Gerente Administrativo", "email": null, "observaciones": null, "inicio": "21/01/2019", "termino": "21/01/2024", "carreras": ["No especificada"]}, {"folio": "008", "empresa": "Despacho De Arquitectos", "estatus": "Por vencer", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "11 De Julio Depto 4 505", "telefono": "7757533751", "contacto": "Andres Maldonado", "cargo": "Director General", "email": null, "observaciones": null, "inicio": "22/01/2019", "termino": "22/01/2024", "carreras": ["No especificada"]}, {"folio": "009", "empresa": "H. Ayuntamiento De Acaxochitlan", "estatus": "Por vencer", "tipoInstitucion": "Pública", "municipio": "Acaxochitlan", "giro": "Gobierno/ Servicios Públicos", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Plaza Principal", "telefono": "7767520090", "contacto": "Maricela Licona Rosales", "cargo": "Titular De Area De Educacion", "email": null, "observaciones": null, "inicio": "22/01/2019", "termino": "22/01/2024", "carreras": ["No especificada"]}, {"folio": "010", "empresa": "Itesa", "estatus": "Sin dato", "tipoInstitucion": "Pública", "municipio": "Apan", "giro": "Gobierno/ Servicios Públicos", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Apn-Tepeapulco Km. 3.5", "telefono": null, "contacto": "Concepcion Fomez Juarez", "cargo": "Representante Legal", "email": null, "observaciones": null, "inicio": "06/02/2019", "termino": "Sin fecha", "carreras": ["No especificada"]}, {"folio": "011", "empresa": "Aserradero \"Ahuacuitl\"", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": null, "telefono": "7759748100", "contacto": "Jose Raul Nery Romero", "cargo": "Dueño", "email": null, "observaciones": null, "inicio": "14/02/2019", "termino": "11/02/2024", "carreras": ["No especificada"]}, {"folio": "012", "empresa": "Arq-Uel", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Mineros 508", "telefono": "77511184057", "contacto": "Adrian Fermin Vera", "cargo": "Director Generlal", "email": null, "observaciones": null, "inicio": "15/02/2019", "termino": "15/02/2024", "carreras": ["No especificada"]}, {"folio": "013", "empresa": "Telas E Hilados S.A. De C.V.", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Mariano Matamoros 504-B", "telefono": "7757551088", "contacto": "Aryanna Gonzalez Amador", "cargo": "Contadora", "email": null, "observaciones": null, "inicio": "25/02/2019", "termino": "25/02/2024", "carreras": ["No especificada"]}, {"folio": "014", "empresa": "Diesel Muñoz S.A. De C.V.", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Av. Del Trabajo", "telefono": "7757607433", "contacto": "Ascencion Muñoz Islas", "cargo": "Patron", "email": null, "observaciones": null, "inicio": "26/02/2019", "termino": "26/02/2024", "carreras": ["No especificada"]}, {"folio": "015", "empresa": "Accesorios El Carrito", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Mexico Tuxpan Km. 143", "telefono": "7757543332", "contacto": "Antonia Cajero Morales", "cargo": "Gerente", "email": null, "observaciones": null, "inicio": "27/02/2019", "termino": "27/02/2024", "carreras": ["No especificada"]}, {"folio": "016", "empresa": "Tableros Ecologicos S.R.L. De C.V.", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Camino A Las Partidas  2500", "telefono": "7751064663", "contacto": "Marco Antonio Vera Licona", "cargo": "Director De Operaciones", "email": null, "observaciones": null, "inicio": "04/03/2019", "termino": "04/03/2024", "carreras": ["No especificada"]}, {"folio": "017", "empresa": "G.C. Construcciones De Mexico S.A. De C.V.", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Bravo Oriente 304", "telefono": null, "contacto": "Jorge Gregorio Cortes", "cargo": "Administrador Unico", "email": null, "observaciones": null, "inicio": "06/03/2019", "termino": "06/03/2024", "carreras": ["No especificada"]}, {"folio": "018", "empresa": "La Siempre Preferida S.A. De C.V.", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Mexico Tuxpan Km. 43", "telefono": null, "contacto": "Leticia Rubi Melendez", "cargo": "Gerente", "email": null, "observaciones": null, "inicio": "06/03/2019", "termino": "06/03/2024", "carreras": ["No especificada"]}, {"folio": "019", "empresa": "Arq Sala Constructora S.A. De C.V.", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Juarez Sur 307-9", "telefono": "7757531169", "contacto": "Juan Guillermo Lopez", "cargo": "Director General", "email": null, "observaciones": null, "inicio": "06/03/2019", "termino": "06/03/2024", "carreras": ["No especificada"]}, {"folio": "020", "empresa": "Hilotex De Mexico", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Industrial/Técnico", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Nayarit 60C", "telefono": null, "contacto": "Leticia Soto Rosas", "cargo": "Gerente General", "email": null, "observaciones": null, "inicio": "07/03/2019", "termino": "07/03/2024", "carreras": ["No especificada"]}, {"folio": "021", "empresa": "Despacho Privado", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "5 De Febrero", "telefono": null, "contacto": "Eduardo Escobedo Sanchez", "cargo": "Propietario", "email": null, "observaciones": null, "inicio": "09/03/2019", "termino": "09/03/2024", "carreras": ["No especificada"]}, {"folio": "022", "empresa": "Proyecto Hormiga A.C.", "estatus": "Vencido", "tipoInstitucion": "Asociación Civil", "municipio": "Tulancingo", "giro": "Sin Fines De Lucro", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Av. Pino Suarez", "telefono": "7757550801", "contacto": "Catalina Hernandez Guzman", "cargo": "Directora General", "email": null, "observaciones": null, "inicio": "11/03/2019", "termino": "11/03/2024", "carreras": ["No especificada"]}, {"folio": "023", "empresa": "Materiales Perea \"Taurocreto\"", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Acaxochitlan", "giro": "Industrial/Técnico", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Mexico Tuxpan Km. 160", "telefono": "7751209523", "contacto": "Juan Isabel Silva Garcia", "cargo": "Jefe De Planta", "email": null, "observaciones": null, "inicio": "13/03/2019", "termino": "13/03/2024", "carreras": ["No especificada"]}, {"folio": "024", "empresa": "Clinica De Computadoras", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Libertad 208", "telefono": null, "contacto": "Moises Arroyo Barrera", "cargo": "Gerente General", "email": null, "observaciones": null, "inicio": "01/04/2019", "termino": "01/04/2024", "carreras": ["No especificada"]}, {"folio": "025", "empresa": "Distribuidora Brael", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Morelos 301-A", "telefono": null, "contacto": "Alenjandro Sanchez Mora", "cargo": "Gerente Administrativo", "email": null, "observaciones": null, "inicio": "03/04/2019", "termino": "03/04/2024", "carreras": ["No especificada"]}, {"folio": "026", "empresa": "Suministros D Einstrumentacion Y Medicion Especializada S.A. De C.V.", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "And Pte  2", "telefono": null, "contacto": "Juan Silva Ramirez", "cargo": "Representante Legal", "email": null, "observaciones": null, "inicio": "08/04/2019", "termino": "08/04/2024", "carreras": ["No especificada"]}, {"folio": "027", "empresa": "Indrustrias Pamet S.A. De C.V.", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Industrial/Técnico", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Mexico Tuxpan Km 142", "telefono": null, "contacto": "Angel Hernandez Ruiz", "cargo": "Gerente", "email": null, "observaciones": null, "inicio": "10/04/2019", "termino": "10/04/2024", "carreras": ["No especificada"]}, {"folio": "028", "empresa": "Transp Del Razo E Hijos S.A. De C.V.", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Mexico Tuxpan Crusero De Acatlan", "telefono": null, "contacto": "Gerardo Del Razo Herrera", "cargo": "Patron", "email": null, "observaciones": null, "inicio": "11/04/2019", "termino": "11/04/2024", "carreras": ["No especificada"]}, {"folio": "029", "empresa": "Planet English Tulancingo", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Luis Ponce Sur 113", "telefono": null, "contacto": "Jorge Diez Alcocer", "cargo": "Gerente Adicional", "email": null, "observaciones": null, "inicio": "28/05/2019", "termino": "28/05/2024", "carreras": ["No especificada"]}, {"folio": "030", "empresa": "Tecnicentro Llantera \"Aries\" S.A. De C.V.", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Blvd Emiliano Zapata 149", "telefono": "7757533462", "contacto": "Diana Laura Rojas Vargas", "cargo": "Gerente General", "email": null, "observaciones": null, "inicio": "06/06/2018", "termino": "06/06/2023", "carreras": ["No especificada"]}, {"folio": "031", "empresa": "San Antonio Logisticos Expresss S.A. De C.V.", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carrillo Pto 1111", "telefono": "7757535979", "contacto": "Elizabeth Gonzalez Calderon", "cargo": "Gerente", "email": null, "observaciones": null, "inicio": "11/06/2018", "termino": "11/06/2023", "carreras": ["No especificada"]}, {"folio": "032", "empresa": "Angelos", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Cuautepec", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Manzana 5", "telefono": null, "contacto": "Reynaldo Hernandez Rosales", "cargo": "Jefe", "email": null, "observaciones": null, "inicio": "17/06/2019", "termino": "17/06/2024", "carreras": ["No especificada"]}, {"folio": "033", "empresa": "Operadora Walmart Srl De C.V.", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Blvd Emiliano Zapata 218", "telefono": null, "contacto": "Osvaldo Santillan Gonzalez", "cargo": "Gerente Ejecutivo", "email": null, "observaciones": null, "inicio": "06/09/2019", "termino": "06/09/2024", "carreras": ["No especificada"]}, {"folio": "034", "empresa": "Imss - Bienestar", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Metepec", "giro": "Gobierno/ Servicios Públicos", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Metepec", "telefono": null, "contacto": "Maria Del Rosario Rosales", "cargo": "Coordinador Medico Regional", "email": null, "observaciones": null, "inicio": "30/09/2019", "termino": "30/09/2024", "carreras": ["No especificada"]}, {"folio": "035", "empresa": "Fundación Nicolás García De San Vicente", "estatus": "Vigente", "tipoInstitucion": "Fundación", "municipio": "Tulancingo", "giro": "Sin Fines De Lucro", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Libertad Oriente 209", "telefono": null, "contacto": "Elisabeth Licona Vargas", "cargo": "Coordinadora De Area", "email": null, "observaciones": null, "inicio": "21/01/2020", "termino": "21/01/2025", "carreras": ["No especificada"]}, {"folio": "036", "empresa": "Zeniaq Technologies S. De R.L. De C.V.", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Industrial/Técnico", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Aquiles Serdan 1207", "telefono": null, "contacto": "Valente Licona Carrasco", "cargo": "Director General", "email": null, "observaciones": null, "inicio": "12/03/2020", "termino": "12/03/2025", "carreras": ["No especificada"]}, {"folio": "037", "empresa": "Control Ambiental Castelan S.A. De C.V.", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Mexico Tuxpan Km 143", "telefono": "7757547932", "contacto": "Anibal Castelan Higareda", "cargo": "Representante Legal", "email": "CONTROL_AMBIENTAL_CAS@HOTMAIL.COM", "observaciones": "Cancelado por certificación de la empresa.", "inicio": "01/06/2021", "termino": "01/06/2026", "carreras": ["No especificada"]}, {"folio": "038", "empresa": "Presidencia De Tulancingo", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Gobierno/ Servicios Públicos", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": null, "telefono": null, "contacto": null, "cargo": null, "email": null, "observaciones": null, "inicio": "30/06/2021", "termino": "30/06/2026", "carreras": ["No especificada"]}, {"folio": "039", "empresa": "Ideph Inst De Desarrollo Profesional De Hidalgo", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Pachuca de Soto", "giro": "Educación", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Manuel Dublan 308", "telefono": null, "contacto": "Jazmin Morales Martinez", "cargo": "Representante Legal", "email": null, "observaciones": null, "inicio": "07/07/2021", "termino": "07/07/2026", "carreras": ["No especificada"]}, {"folio": "040", "empresa": "Dessi", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Industrial/Técnico", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Roberto Tello No.19", "telefono": "7752355921", "contacto": "Amy Guadalupe Spence Sosa", "cargo": "Cio", "email": "DESSI.INGENIERIA@GMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "041", "empresa": "Universidad Pedagogica Nacional - Hidalgo", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Educación", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Avenida Del Maestro No.100", "telefono": "7751004353", "contacto": "C. Grisela Espinosa Ramirez", "cargo": "Directora", "email": "UPN_TULANCINGO@HOTMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "042", "empresa": "Fundacion Esperanza Vikingos A.C", "estatus": "Vigente", "tipoInstitucion": "Fundación", "municipio": "Tulancingo", "giro": "Sin Fines De Lucro", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Aves Del Paraiso S/N", "telefono": "7751213756", "contacto": "C. Raul Alberto Olvera Brito", "cargo": "Director", "email": "ESPERANZA@HOTMAIL.COM", "observaciones": null, "inicio": "15/01/2023", "termino": "15/01/2026", "carreras": ["No especificada"]}, {"folio": "043", "empresa": "Enseres Domesticos Estrella", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Federal Mexico-Tuxpan Km. 142", "telefono": "7751120374", "contacto": "C. Eunice Rubi Soto Baños", "cargo": "Gerente General", "email": "EUNICE.RSB@GMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "044", "empresa": "Comercializadora De Granos Licona", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Industrial/Técnico", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Acatlan-Tulancingo Km. 8", "telefono": "7757422167", "contacto": "C. Enrique Licon Escorcia", "cargo": "Gerente General", "email": "FORRAJESLICONA@GMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "045", "empresa": "Sucursal Super Superet S.A De C.V", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Av. 21 De Marzo Norte No. 1601", "telefono": "7751123049", "contacto": "Salvador Nochebuena Ramos", "cargo": "Administrador De Finanzas", "email": "SUPER.SUPERET@HOTMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "046", "empresa": "Escuela Secundaria General General No.2 Isaac Newton", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Educación", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Av. Del Trabajo 1201", "telefono": "7757533914", "contacto": "Jose Ignacio Garrido Hernandez", "cargo": "Director", "email": null, "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "047", "empresa": "Textiles Tecnicos", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Industrial/Técnico", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Independenca Sur No. 200", "telefono": "7757551165", "contacto": "Juan Jose Vargas Hernandez", "cargo": "Encargado De Almacen", "email": "PALNTA@TEXTILES TECNICOS .COM.MX", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "048", "empresa": "Despacho Campillo Batalla C.B", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Av. Del Trabajo", "telefono": "7751798406", "contacto": "Santa Teresa Campillo Batalla", "cargo": "Propietaria", "email": "CONTABLECBDESPACHO@GMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "049", "empresa": "Estacion De Servicio Jaltepec S.A De C.V", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Blvd. Quetzalcoatl No. 1400", "telefono": "7751127059", "contacto": "Beatriz Luna Arista", "cargo": "Gerente", "email": null, "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "050", "empresa": "Romave Construcciones", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Pachuca de Soto", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Hermenegildo Acoltzin No. 103", "telefono": null, "contacto": "Oliver Belmontes Tafolla", "cargo": "Supervisor", "email": "OLIVER.BELMONTES@ROMAVE.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "051", "empresa": "Centro De Capacitacion Para El Trabajo Industrial No. 123", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Educación", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Av. Adolfo Lugo Verduzco", "telefono": "7757537407", "contacto": "Paula Torres Ortega", "cargo": "Directora", "email": "CECATI123.DIR@DGCFT.SEMS.GOB.MX", "observaciones": null, "inicio": "03/06/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "052", "empresa": "Instituto De Capacitacion Y Asistencia Medica D.I.F", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Gobierno/ Servicios Públicos", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Corregidora Oriente No. 304", "telefono": "7757531690", "contacto": "Arisbel Martinez Garcia", "cargo": "Directora", "email": "ICAM.DF@TULANCINGO.GOB.MX", "observaciones": null, "inicio": "03/06/2023", "termino": "03/06/2026", "carreras": ["No especificada"]}, {"folio": "053", "empresa": "Maquilas Hidalgo", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Industrial/Técnico", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Martires De Rio Blanco No. 203", "telefono": "7751159610", "contacto": "Jaime Ibarra Garrido", "cargo": "Propietario", "email": "MR.YIMI.1@HOTMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "054", "empresa": "Taller Regrivio", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Mexico-Tuxpan Km. 73", "telefono": "7757700216", "contacto": "Gabriel Solis Leyva", "cargo": "Gerente General", "email": "TALLERGRIVIO@GMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "055", "empresa": "Corne Medic", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Morelos Pte. 110", "telefono": "7757536404", "contacto": "Benjamin Romero Franco", "cargo": "Gerente De Ventas", "email": "CORNEMEDIC@GMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "056", "empresa": "Technologies", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Edificio Mimila No. 101", "telefono": "7751547556", "contacto": "Gerardo Barrera Vera", "cargo": "Director De La Empresa", "email": "GLTECDIGITAL@GLTEC.COM.MX", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "057", "empresa": "Oficina De Seguros", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Mexico-Tuxpan Km. 92", "telefono": "7751162577", "contacto": "Maria De Los Angeles Fuentes Ortiz", "cargo": "Agente De Seguros", "email": "ANGELESFUENTES@YAHOO.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "058", "empresa": "Aserradero Y Tarima La Nueva Era", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Francisco I. Madero S/N", "telefono": "7767614056", "contacto": "Walter Nava Soto", "cargo": "Gerente", "email": "NUEVAERA2J4@HOTMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "059", "empresa": "Aceros San Rafael", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Educación Dual", "estado": "HIDALGO", "domicilio": "Carretera Mexico-Tuxpan Km. 138", "telefono": "7757427636", "contacto": "Selene Ivonne Vargas Escorcia", "cargo": "Jefe De Recursos Humanos", "email": "SIVARGAS@ACEROSSANRAFAEL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "060", "empresa": "Delegacion Municipal De San Mateo", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Acaxochitlan", "giro": "Gobierno/ Servicios Públicos", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Domicilio Conocido. Plaza Principal, Barrio La Lagunillael Grande San Mateo", "telefono": "7753449331", "contacto": "Miguel Angelen Rosales Gonzalez", "cargo": "Delegado", "email": null, "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "061", "empresa": "Angeles Con Patitas", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Sin Fines De Lucro", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Emiliano Zapata No. 1", "telefono": "7751918252 WHATSAPP", "contacto": "Lesly Ortiz Garcia", "cargo": "Director General", "email": "ANGELESCONPATITAS030@GMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "062", "empresa": "Lab It Services Y Solutions", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Topacio Norte 120", "telefono": "7751115710", "contacto": "Oscar Mendoza Islas", "cargo": "Gerente General", "email": "PCLAB.TULANCINGO@GMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "063", "empresa": "Texnova S.A De C.V", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Industrial/Técnico", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Tulancingo-Huapalcalco No.1510", "telefono": "7757557320", "contacto": "Walter Nava Soto", "cargo": "Gerente", "email": "TIENDAS.TEXNOVA@HOTMIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "064", "empresa": "Transportes Vargas", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Singuilucan", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Trigo Lote 3 Manzana 25", "telefono": "7751446743", "contacto": "Jose Ismael Vargas Rodrigues", "cargo": "Dueño", "email": null, "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "065", "empresa": "Comision Nacional De Agua", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Gobierno/ Servicios Públicos", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Tulancingo-Cuautepec Km. 6.5", "telefono": "7751351586", "contacto": "David Guevara Asornio", "cargo": "Encargado De Operación", "email": "DAVID_GUEVARA@CONAGUA.GON.MX", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "066", "empresa": "Escuela Primaria Juan Escutia", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Educación", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Adolfo Ruiz Cortinez No. 107", "telefono": "7751393656", "contacto": "Maria Manuela Vargas Alvarado", "cargo": "Directora", "email": null, "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "067", "empresa": "Clinica Interamericana", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Emiliano Zapata No. 145", "telefono": "7751783527", "contacto": "Apolinar Ruiz Culebro", "cargo": "Director General", "email": "CLINICA-INTER2018@HOTMAIL.COM.MX", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "068", "empresa": "Deposito La Chinita", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Francisco Villa No. 100", "telefono": "7751088176", "contacto": "Jovita Ramirez Gonzalez", "cargo": "Propietaria", "email": null, "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "069", "empresa": "Red Seda Pro .S.A.S", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Industrial/Técnico", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Calle 11 No. 211 Pozas Encantadas", "telefono": "7752084710", "contacto": "Maria Dolores Espinosa Olmedo", "cargo": "Directora De La Empresa", "email": "COUNICINTITUTOCERTIFICADO@GMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "070", "empresa": "Escuela Secundaria Tecnica 48 Japon", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Educación", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Adolfo Lugo Verduzco S/N", "telefono": "7757536265", "contacto": "Gregorio Vera Ramirez", "cargo": "Director", "email": "SECTECHGO.48@SEP.GOB.MX", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "071", "empresa": "Barcel S.A De C.V", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Jorge Ibarguengoitia No. 101", "telefono": "7751388415", "contacto": "Salvador Soto Escorcia", "cargo": "Asesor De Verntas", "email": null, "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "072", "empresa": "Rex Irrigacion Hidalgo S.A De C.V", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Pachuca de Soto", "giro": "Industrial/Técnico", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Fracc. Privada De San Javier Manzana 7", "telefono": "7712121615", "contacto": "Cirilo Antonio Moreno Morales", "cargo": "Gerente", "email": "REXIRRIGACIONHIDALGO@HOTMAIL.COM", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "073", "empresa": "Unidad De Servicios De Apoyo A La Educacion", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Acaxochitlan", "giro": "Servicios", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Av. Principal. Centro. San Mateo", "telefono": "5549325980", "contacto": "Marco Antonio Bautista Gama", "cargo": "Director De La Empresa", "email": "USAER_47@OUTLOOK.ES", "observaciones": null, "inicio": "15/03/2023", "termino": "15/03/2026", "carreras": ["No especificada"]}, {"folio": "074", "empresa": "La Nonna Buffet", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Priv Galena 807", "telefono": "7757556075", "contacto": "Sandra Cortes Mayorga", "cargo": "Encargada", "email": null, "observaciones": null, "inicio": "03/05/2021", "termino": "03/05/2026", "carreras": ["No especificada"]}, {"folio": "075", "empresa": "Autos De Tulancingo S.A De C.V", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Comercio O Ventas", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "A. Tomas Alba Edison 710", "telefono": "7757531129", "contacto": "Raquel Hernandez Garcia", "cargo": "Servicio", "email": null, "observaciones": null, "inicio": "10/08/2021", "termino": "10/08/2026", "carreras": ["No especificada"]}, {"folio": "076", "empresa": "Concentra Consorcio Agroindustrial S.A De C.V", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Av. Universitaria Km 2", "telefono": "7757550220", "contacto": "Ruben Jimenez Lopez", "cargo": "Gerente De Administrador", "email": null, "observaciones": null, "inicio": "03/05/2021", "termino": "03/02/2026", "carreras": ["No especificada"]}, {"folio": "077", "empresa": "Presidencia Municipal De Agua Blanca De Iturbide", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Agua Blanca de Iturbide", "giro": "Gobierno/ Servicios Públicos", "tipoConvenio": "Servicio Social y Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Palacion Municipal S/N Col Centro", "telefono": "7711891007", "contacto": "Ignacio Trejo Ramirez", "cargo": "Secretario Municipal", "email": null, "observaciones": null, "inicio": "15/09/2023", "termino": "15/09/2026", "carreras": ["No especificada"]}, {"folio": "078", "empresa": "Colomer", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Industrial/Técnico", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Av Vicente Aguirre", "telefono": "7757559500", "contacto": "Angel Inocente Jimenez Perez", "cargo": "Director General", "email": null, "observaciones": null, "inicio": "15/11/2023", "termino": "15/11/2026", "carreras": ["No especificada"]}, {"folio": "079", "empresa": "Cir-Far Ingenieria Y Arquitectura", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Av Del Trabajo", "telefono": "775 199 9901", "contacto": "Jorge H Farias", "cargo": "Ceo", "email": null, "observaciones": null, "inicio": "11/12/2023", "termino": "11/12/2026", "carreras": ["No especificada"]}, {"folio": "080", "empresa": "Cayco Contrucción Sa De Cv", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Educación Dual", "estado": "HIDALGO", "domicilio": null, "telefono": null, "contacto": null, "cargo": null, "email": null, "observaciones": null, "inicio": "06/03/2023", "termino": "06/03/2028", "carreras": ["Administración"]}, {"folio": "081", "empresa": "Asociación De Silvicultores Del Valle De Tulancingo", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": null, "telefono": null, "contacto": null, "cargo": null, "email": null, "observaciones": null, "inicio": "19/01/2024", "termino": "18/01/2027", "carreras": ["Administración"]}, {"folio": "082", "empresa": "Central Medica De Oriente", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": null, "telefono": null, "contacto": null, "cargo": null, "email": null, "observaciones": null, "inicio": "22/01/2024", "termino": "21/01/2027", "carreras": ["Programación"]}, {"folio": "083", "empresa": "Colegio Anahuac", "estatus": "Vigente", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "No especificado", "tipoConvenio": "Prácticas Profesionales y Descuentos", "estado": "HIDALGO", "domicilio": null, "telefono": null, "contacto": null, "cargo": null, "email": null, "observaciones": null, "inicio": "29/01/2024", "termino": "28/01/2027", "carreras": ["Electricidad", "Trabajo Social", "Administración", "Programación", "Mecatrónica", "Construcción", "Otra"]}, {"folio": "084", "empresa": "Herrera Motors De Hidalgo S.A De C.V", "estatus": "Vigente", "tipoInstitucion": "No especificado", "municipio": "Tulancingo", "giro": "Compra Venta Reparacion De Autos", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Av.  Juarez Nte 1022 Col Insurgentes Tul Hgo", "telefono": "775 7530033", "contacto": "Luis Alfredo Rodriguez Fuentes", "cargo": "Encargado De Seminuevos", "email": "alfredo.rodriguez@chevrolethidalgo.com", "observaciones": null, "inicio": "05/03/2024", "termino": "05/03/2027", "carreras": ["Electricidad", "Administración", "Programación", "Mecatrónica"]}, {"folio": "085", "empresa": "Covimexi, S.A De C.V", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Contruccion", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Robert Schumzin Sn Col. Jardines Del Sur", "telefono": "7757536160", "contacto": "L.C Maria Liliana Martinez Garcia", "cargo": "Contadora", "email": "facturacion@covimexi.com", "observaciones": null, "inicio": "19/02/2024", "termino": "18/02/2027", "carreras": ["No especificada"]}, {"folio": "086", "empresa": "Presidencia Municipal De Singuilucan", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Singuilucan", "giro": "Servicios Publico", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Plaza Del Articulo 115 S/N Col. Centro", "telefono": "7757552919", "contacto": "L.T.F.J. Javier Jimenez Moreno", "cargo": "Director De Comunicación Social", "email": "admonsinguilucan202024@gmail.com", "observaciones": null, "inicio": "07/02/2024", "termino": "06/02/2027", "carreras": ["No especificada"]}, {"folio": "087", "empresa": "Arquitectura Y Diseño Bl Sa De  Cv", "estatus": "Vigente", "tipoInstitucion": "No especificado", "municipio": "Tulancingo", "giro": "No especificado", "tipoConvenio": "Prácticas Profesionales y Bolsa de Trabajo", "estado": "HIDALGO", "domicilio": "Rosario Castellanos 14, Nuevo Tulancingo C.P. 43612 Tul Hgo", "telefono": "7757525006", "contacto": "Prof. Juan Silvino Benitez Franco", "cargo": "Representante Legal", "email": "arquitecturaydiseño@gmail.com", "observaciones": null, "inicio": "29/01/2024", "termino": "28/01/2027", "carreras": ["No especificada"]}, {"folio": "088", "empresa": "Medica Quijurgica Y Especialidades Santa Maria", "estatus": "Vencido", "tipoInstitucion": "Privada", "municipio": "Tulancingo", "giro": "Haspitales Generales Del Sector Primario", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carrertera Estatal Tulancingo Huapalcalco N.511 Tulancingo", "telefono": "7757536348", "contacto": "Lic. Ariadna Ivonne Almeria Esponoza", "cargo": "Area Recursos Humanos", "email": "medicasantamaria@prodigy.com.mx", "observaciones": null, "inicio": null, "termino": null, "carreras": ["No especificada"]}, {"folio": "089", "empresa": "Arq-Uel", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Mineros 508, La Mineria Secc. 200", "telefono": "7751184057", "contacto": "Adrian Fermin Vera Ricaño", "cargo": "Director General", "email": "arquelvr@yahoo.com.mx", "observaciones": null, "inicio": "15/03/2024", "termino": "15/03/2027", "carreras": ["No especificada"]}, {"folio": "090", "empresa": "Escuela Secundaria Tecnica. 60", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Napateco", "giro": "Servicio Educativo", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Av.26S/N Manzana 6 Lote 14 Col. Napateco", "telefono": "7751126091", "contacto": "Isidro Sotelo Martinez", "cargo": "Director De La Institucion", "email": "sectechgo_60@seph.gob.mx", "observaciones": null, "inicio": "14/03/2024", "termino": "14/03/2027", "carreras": ["No especificada"]}, {"folio": "091", "empresa": "Lubricantes Y Refracciones Magu", "estatus": "Vencido", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Compra Venta De Refracciones Automotrices", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Avenida Juarez.No. 909 Entre Calle Sonora Yd.", "telefono": "7751245838", "contacto": "Jose Guadalupe Aguilar Castillo", "cargo": "Administrador", "email": "refamagu@gmail.com", "observaciones": null, "inicio": null, "termino": null, "carreras": ["No especificada"]}, {"folio": "092", "empresa": "Servicios De Ingenieria Y Construccion (Sd Yc)", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Pachuca de Soto", "giro": "Servicios De Construccion", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Honey 137, Parque De Poblamiento, Pachuca Hidalgo", "telefono": "7712195279", "contacto": "Arq. Felix Mateos Cruz", "cargo": "Director De Estudios Y Proyectos", "email": "mateos189@hotmail.com", "observaciones": null, "inicio": "13/03/2024", "termino": "13/03/2027", "carreras": ["No especificada"]}, {"folio": "093", "empresa": "Yayi Internet", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Proveedores De Internet", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Calle.Baja Califirnia Col. Rojo Gomez", "telefono": "8003230764", "contacto": "Jarlin Glomar Ramirez Rosas", "cargo": "Auxiliar Administrativo", "email": "jarlin.ramirez@yayinternet.mx", "observaciones": null, "inicio": "09/04/2024", "termino": "09/04/2027", "carreras": ["Electricidad"]}, {"folio": "094", "empresa": "Confecciones Aconi", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Industria Textil", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Calle. Olmeca No.1404 Guadalupe  3A Seccion ,C.P 43650", "telefono": "7712971604", "contacto": "Maria Adilu Lozada Zermeño", "cargo": "Jefe Directo", "email": "adilu1612@outlook.com", "observaciones": null, "inicio": "09/04/2024", "termino": "09/04/2027", "carreras": ["Administración"]}, {"folio": "095", "empresa": "Componentes Electronicos Tulancingo", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Venta De Electronica", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "1Ra De Mayo Ote 201 C.B", "telefono": "775974300", "contacto": "German Perez Gutierrez", "cargo": "Gerente", "email": "tulancingo@steren.com.mx", "observaciones": null, "inicio": "09/04/2024", "termino": "09/04/2027", "carreras": ["No especificada"]}, {"folio": "096", "empresa": "Tecmeden", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Rincones de la Hacienda", "giro": "Servicios Y Mantenimiento", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Rincones D Ela Hacienda 3Ra Seccion, Hierro #120", "telefono": "7751457897", "contacto": "Jovany Yañez Rojas", "cargo": "Patron Sujeto Obligado", "email": "axelirke@gmail.com", "observaciones": null, "inicio": "09/04/2024", "termino": "09/04/2027", "carreras": ["Administración"]}, {"folio": "097", "empresa": "Despacho Contable Y Asociados", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "G.Aurelio Marin Huazo S/N Mza 38 2T 14 Col. La Cañada", "telefono": "7757534931", "contacto": "Lc. Eva Amador Guerrero", "cargo": "Patron Sujeto Obligado", "email": "sagieva_1202@hotmail.com", "observaciones": null, "inicio": "09/04/2024", "termino": "09/04/2027", "carreras": ["No especificada"]}, {"folio": "098", "empresa": "Colegio Jorge A. Berganza Y Torre", "estatus": "Vigente", "tipoInstitucion": "Asociación Civil", "municipio": "Tulancingo", "giro": "Educación", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Cerrada Rodolfo Guzman Huerta S/N", "telefono": "7757551620", "contacto": "Beatriz Bravo Berganza", "cargo": "Representante Legal", "email": null, "observaciones": null, "inicio": "22/03/2024", "termino": "22/03/2027", "carreras": ["No especificada"]}, {"folio": "099", "empresa": "Ar-Servis-Logistica- Ca", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Huatengo", "giro": "Comercial", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carr.Mexico-Tuxpan Num.Km13", "telefono": "5579901110", "contacto": "Zorayda Hernandez Perez", "cargo": "Corddinadora De Logistica", "email": "facturacion.Arservis@ARKACS.com.mx", "observaciones": null, "inicio": "21/03/2024", "termino": "21/03/2027", "carreras": ["No especificada"]}, {"folio": "100", "empresa": "Centro De Rehabilitacion Tulancingo", "estatus": "Vigente", "tipoInstitucion": "Asociación Civil", "municipio": "Tulancingo", "giro": "Servicio De Rehabilitacion(Salud)", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "C. Suiza No. 103 Col. Caltengo", "telefono": "7751122446", "contacto": "Jose Jaime Franco Toriz", "cargo": "Director", "email": "centroderehabilitaciontulancingo@hotmail.com", "observaciones": null, "inicio": "14/03/2024", "termino": "14/03/2027", "carreras": ["No especificada"]}, {"folio": "101", "empresa": "Vigasa De Hidalgo S.A De C.V", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Construccion Y Proyecto", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Libertad Pte. 409 A Col. Centro", "telefono": "7757538666", "contacto": "Arq. Laura Leticia Garcia Olvera", "cargo": "Director Administrativo", "email": "vigasa_hg@hotmail.com", "observaciones": null, "inicio": "20/03/2024", "termino": "20/03/2027", "carreras": ["No especificada"]}, {"folio": "102", "empresa": "Ferreteria San Pedro", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Compra Y Venta De Materia De Contrusccion", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera K.180.1", "telefono": "7757613689", "contacto": "Saira Guadalupe Vargas Garcia", "cargo": "Secretaria", "email": "ferresanpedro@hotmail.com", "observaciones": null, "inicio": "20/03/2024", "termino": "20/03/2027", "carreras": ["No especificada"]}, {"folio": "103", "empresa": "Alvave Agente De Seguroos", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Servicios Financieros", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Calle Tributos No130 El Susto Singuilucan Hg", "telefono": "7751308755", "contacto": "Alfonso Vargas Vera", "cargo": "Dueño", "email": "avargasvera5823@gmail.com", "observaciones": null, "inicio": "20/03/2024", "termino": "20/03/2027", "carreras": ["No especificada"]}, {"folio": "104", "empresa": "Medica Quijurgica Y Especialidades Santa Maria", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Haspitales Generales Del Sector Primario", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera Estatal Tulancingo Huapalcalco #511Tulncingo", "telefono": "7757536348", "contacto": "Lic. Ariadna Ivonne Almeria Esponoza", "cargo": "Area Recursos Humanos", "email": "medicasantamaria@prodigy.com.mx", "observaciones": null, "inicio": "15/03/2024", "termino": "15/03/2027", "carreras": ["Administración"]}, {"folio": "105", "empresa": "Arq-Uel", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Mineros 508, La Mineria Secc. 200", "telefono": "7751184057", "contacto": "Adrian Fermin Vera Ricaño", "cargo": "Director General", "email": "arquelvr@yahoo.com.mx", "observaciones": null, "inicio": "15/03/2024", "termino": "15/03/2027", "carreras": ["Construcción"]}, {"folio": "106", "empresa": "Escuela Secundaria Tecnica No.60", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Servicio Educativo", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Av.26S/N Manzana 6 Lote 14 Col. Napateco", "telefono": "7751126091", "contacto": "Isidro Sotelo Martinez", "cargo": "Director De La Institucion", "email": "sectechgo_60@seph.gob.mx", "observaciones": null, "inicio": "14/03/2024", "termino": "14/03/2027", "carreras": ["Trabajo Social"]}, {"folio": "107", "empresa": "Lubricantes Y Refracciones Magu", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Compra Venta De Refracciones Automotrices", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Avenida Juarez.No. 909 Entre Calle Sonora Yd.", "telefono": "7751245838", "contacto": "Jose Guadalupe Aguilar Castillo", "cargo": "Administrador", "email": "retamagu@gmail.com", "observaciones": null, "inicio": "12/03/2024", "termino": "12/03/2027", "carreras": ["No especificada"]}, {"folio": "108", "empresa": "Servicios De Ingenieria Y Construccion (Sd Yc)", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Servicios De Construccion", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Honey 137, Parque De Poblamiento, Pachuca Hidalgo", "telefono": "7712195279", "contacto": "Arq. Felix Mateos Cruz", "cargo": "Director De Estudios Y Proyectos", "email": "mateos189@hotmail.com", "observaciones": null, "inicio": "13/03/2024", "termino": "13/03/2027", "carreras": ["Programación", "Construcción"]}, {"folio": "109", "empresa": "Alvave Agente De Seguroos", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Servicios Financieros", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Calle Tributos No130 El Susto Singuilucan Hg", "telefono": "7751308755", "contacto": "Alfonso Vargas Vera", "cargo": "Dueño", "email": "avargasvera5823@gmail.com", "observaciones": null, "inicio": "20/03/2024", "termino": "20/03/2027", "carreras": ["Administración"]}, {"folio": "110", "empresa": "Ferreteria San Pedro", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Compra Y Venta De Materia De Contrusccion", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carretera K.180.1", "telefono": "7757599914", "contacto": "Sarra Guadalupe Vargas Garcia", "cargo": "Secretaria", "email": "ferresanpedro@hotmail.com", "observaciones": null, "inicio": "20/03/2024", "termino": "20/03/2027", "carreras": ["Administración"]}, {"folio": "111", "empresa": "Vigasa De Hidalgo S.A De C.V", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Contrucccion Y Proyecto", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Libertas Pte.409-A Col. Centro", "telefono": "7757538666", "contacto": "Arq. Laura Leticia Garcia Olvera", "cargo": "Director Dminnistrativo", "email": "vigasa_hg@hotmail.com", "observaciones": null, "inicio": "20/03/2024", "termino": "20/03/2027", "carreras": ["Construcción"]}, {"folio": "112", "empresa": "Plasticos Tulancingo", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Inyecccion De Plasticos", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Calle Ssan Juan Rulfo Col. Magisterio 1", "telefono": "7752332631", "contacto": "Humbeerto Benjamin Hernandez Iborra", "cargo": "Administrador", "email": "franciscoroldan.1981@hotmail.com", "observaciones": null, "inicio": "20/03/2024", "termino": "20/03/2027", "carreras": ["Mecatrónica"]}, {"folio": "113", "empresa": "Centro De Rehabilitacion Tulancingo", "estatus": "Vigente", "tipoInstitucion": "Asociación Civil", "municipio": "Tulancingo", "giro": "Servicio De Rehabilitacion(Salud)", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "C. Suiza No. 103 Col. Caltengo", "telefono": "7751122446", "contacto": "Jose Jaime Franco Toriz", "cargo": "Director", "email": "centroderehabilitaciontulancingo@hotmail.com", "observaciones": null, "inicio": "14/03/2024", "termino": "14/03/2027", "carreras": ["Trabajo Social"]}, {"folio": "114", "empresa": "Ar-Servis-Logistica- Ca", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Comercial", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Carr.Mexico-Tuxpan Num.Km13", "telefono": "5579901110", "contacto": "Zorayda Hernandez Perez", "cargo": "Corddinadora De Logistica", "email": "facturacion.Arservis@ARKACS.com.mx", "observaciones": null, "inicio": "21/03/2024", "termino": "21/03/2027", "carreras": ["Mecatrónica"]}, {"folio": "115", "empresa": "Colegio Jorge A. Berganza Y Torre", "estatus": "Vigente", "tipoInstitucion": "Asociación Civil", "municipio": "Tulancingo", "giro": "Educación", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Cerrada Rodolfo Guzman Huerta S/N", "telefono": "7757551620", "contacto": "Beatriz Bravo Berganza", "cargo": "Representante Legal", "email": null, "observaciones": null, "inicio": "22/03/2024", "termino": "22/03/2027", "carreras": ["No especificada"]}, {"folio": "116", "empresa": "Pintu Car´S Reparacion De Autos", "estatus": "Vigente", "tipoInstitucion": "Pública", "municipio": "Tulancingo", "giro": "Servicio Comercial", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Ahuehuetes No.15 Colo.Arboledas Santiago", "telefono": "7757423066", "contacto": "Juan Manual Lopez Villegas", "cargo": "Encargado De Taller", "email": "pintucars75@gmail.com", "observaciones": null, "inicio": "21/03/2024", "termino": "21/03/2027", "carreras": ["Programación", "Mecatrónica"]}, {"folio": "117", "empresa": "Despacho Contable Y Asociados", "estatus": "Vigente", "tipoInstitucion": "Asociación Civil", "municipio": "Tulancingo", "giro": "Servicios", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "G.Aurelio Marin Huazo S/N Mza 38 2T 14 Col. La Cañada", "telefono": "7757534931", "contacto": "Lc. Eva Amador Guerrero", "cargo": "Patron Sujeto Obligado", "email": "sagieva_1202@hotmail.com", "observaciones": null, "inicio": "09/04/2024", "termino": "09/04/2027", "carreras": ["Administración"]}, {"folio": "118", "empresa": "Tecmeden", "estatus": "Vigente", "tipoInstitucion": "No especificado", "municipio": "Tulancingo", "giro": "Servicios Y Mantenimiento", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Rincones D Ela Hacienda 3Ra Seccion, Hierro #120", "telefono": "7751457897", "contacto": "Jovany Yañez Rojas", "cargo": "Patron Sujeto Obligado", "email": "axelirke@gmail.com", "observaciones": null, "inicio": "09/04/2024", "termino": "09/04/2027", "carreras": ["Administración"]}, {"folio": "119", "empresa": "Componentes Electronicos Tulancingo", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Venta De Electronica", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "1Ra De Mayo Ote 201 C.B", "telefono": "7759743900", "contacto": "German Perez Gutierrez", "cargo": "Gerente", "email": "tulancingo@steren.com.mx", "observaciones": null, "inicio": "09/04/2024", "termino": "09/04/2027", "carreras": ["Electricidad"]}, {"folio": "120", "empresa": "Confecciones Aconi", "estatus": "Vigente", "tipoInstitucion": "Sector Productivo", "municipio": "Tulancingo", "giro": "Industria(Textil)", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Calle Olmeca No.1404 Guadalupe  3A Seccion", "telefono": "7712971604", "contacto": "Maria Adilu Lozada Zermeño", "cargo": "Jefe Directo", "email": "adilu1612@outlook.com", "observaciones": null, "inicio": "09/04/2024", "termino": "09/04/2027", "carreras": ["Administración"]}, {"folio": "121", "empresa": "Yayi Internet", "estatus": "Vigente", "tipoInstitucion": "No especificado", "municipio": "Tulancingo", "giro": "Proveedores De Internet", "tipoConvenio": "Prácticas Profesionales", "estado": "HIDALGO", "domicilio": "Calle Baja California Col Rojo Gomez", "telefono": "775168892", "contacto": "Jarlin Glomar Ramirez Rosas", "cargo": "Auxiliar Administrativo", "email": "jarlin.ramirez@yayinternet.mx", "observaciones": null, "inicio": "09/04/2024", "termino": "09/04/2027", "carreras": ["Electricidad"]}]
-</script>
+    <!-- MAIN -->
+    <div class="main">
+
+      <!-- ── HOME ── -->
+      <div id="view-home">
+        <div class="section-title" id="homeGreet">¡Hola!</div>
+        <div class="section-sub">Sigue tu progreso diario</div>
+
+        <div class="parcial-grid" id="parcialGrid"></div>
+
+        <div class="panel">
+          <div class="panel-title">📊 Mi progreso general</div>
+          <div id="myProgressBars"></div>
+        </div>
+
+        <div class="ai-bubble"><strong>💡 Consejo del día:</strong> <span id="tipOfDay">Recuerda que la distancia entre dos puntos (x₁,y₁) y (x₂,y₂) es √((x₂-x₁)²+(y₂-y₁)²).</span></div>
+      </div>
+
+      <!-- ── APRENDE ── -->
+      <div id="view-aprende" style="display:none">
+        <div class="section-title">Ruta de aprendizaje</div>
+        <div class="section-sub">Selecciona un parcial y completa los nodos en orden</div>
+        <div class="tab-bar" id="parcialTabs"></div>
+        <div id="topicPath" class="topic-path"></div>
+      </div>
+
+      <!-- ── QUIZ ── -->
+      <div id="view-quiz" style="display:none">
+        <div class="quiz-wrap">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:0.8rem;">
+            <button onclick="backFromQuiz()" style="background:var(--gray-100);border:none;border-radius:6px;padding:5px 12px;font-size:0.85rem;cursor:pointer;font-weight:600;">← Regresar</button>
+            <div class="quiz-lives" id="quizLives"></div>
+          </div>
+          <div class="quiz-progress-bar"><div class="quiz-progress-inner" id="quizProg" style="width:0%"></div></div>
+          <div class="quiz-header">
+            <span class="quiz-q-num" id="quizQNum">Pregunta 1 de 5</span>
+            <span class="quiz-xp">+<span id="quizXPEarn">10</span> XP por acierto</span>
+          </div>
+          <div class="quiz-question" id="quizQ"></div>
+          <div class="quiz-options" id="quizOpts"></div>
+          <div class="quiz-feedback" id="quizFB"></div>
+          <button class="btn-next" id="btnNext" onclick="nextQuestion()">Continuar →</button>
+        </div>
+      </div>
+
+      <!-- ── QUIZ RESULT ── -->
+      <div id="view-result" style="display:none">
+        <div class="result-box panel">
+          <span class="result-emoji" id="resultEmoji">🎉</span>
+          <h2 id="resultTitle">¡Excelente!</h2>
+          <p id="resultMsg" style="color:var(--gray-500);font-size:0.9rem;"></p>
+          <div class="result-stats">
+            <div class="r-stat"><div class="val" id="rCorrect" style="color:var(--green)">0</div><div class="lbl">Correctas</div></div>
+            <div class="r-stat"><div class="val" id="rXP" style="color:var(--orange-dark)">0</div><div class="lbl">XP ganados</div></div>
+            <div class="r-stat"><div class="val" id="rAcc" style="color:var(--blue)">0%</div><div class="lbl">Exactitud</div></div>
+          </div>
+          <button class="btn-back-map" onclick="showView('aprende')">Regresar al mapa</button>
+        </div>
+      </div>
+
+      <!-- ── TAREAS (STUDENT) ── -->
+      <div id="view-tareas" style="display:none">
+        <div class="section-title">Mis tareas</div>
+        <div class="section-sub">El docente asignó estos ejercicios</div>
+        <div id="studentTaskList"></div>
+      </div>
+
+      <!-- ── RANKING ── -->
+      <div id="view-ranking" style="display:none">
+        <div class="section-title">🏆 Tabla de líderes</div>
+        <div class="section-sub">Compite con tus compañeros de clase</div>
+        <div class="panel">
+          <div id="rankingList"></div>
+        </div>
+      </div>
+
+      <!-- ══ TEACHER VIEWS ══ -->
+
+      <!-- ── TEACHER: DASHBOARD ── -->
+      <div id="view-tdash" style="display:none">
+        <div class="section-title">Panel del docente</div>
+        <div class="section-sub">Seguimiento de avances del grupo</div>
+        <div class="stats-row" id="teacherStats"></div>
+        <div class="panel">
+          <div class="panel-title">📋 Progreso por alumno</div>
+          <div style="overflow-x:auto"><table class="student-table" id="studentTable">
+            <thead><tr>
+              <th>Alumno</th><th>Parcial 1</th><th>Parcial 2</th><th>Parcial 3</th><th>XP</th><th>Calificación</th>
+            </tr></thead>
+            <tbody id="studentTableBody"></tbody>
+          </table></div>
+        </div>
+      </div>
+
+      <!-- ── TEACHER: ASSIGN TASKS ── -->
+      <div id="view-assign" style="display:none">
+        <div class="section-title">Asignar tareas</div>
+        <div class="section-sub">Selecciona el tema y asígnalo al grupo</div>
+        <div class="panel">
+          <div class="panel-title">➕ Nueva tarea</div>
+          <div class="form-row">
+            <select id="taskParcial">
+              <option value="">-- Parcial --</option>
+              <option value="1">Parcial 1</option>
+              <option value="2">Parcial 2</option>
+              <option value="3">Parcial 3</option>
+            </select>
+            <select id="taskTopic" onchange=""></select>
+            <input type="date" id="taskDue">
+          </div>
+          <div class="form-row">
+            <input type="text" id="taskDesc" placeholder="Instrucciones adicionales (opcional)" style="flex:2">
+          </div>
+          <button class="btn-sm btn-sm-green" onclick="assignTask()">Asignar a todo el grupo</button>
+        </div>
+        <div class="panel">
+          <div class="panel-title">📋 Tareas asignadas</div>
+          <div id="teacherTaskList"></div>
+        </div>
+      </div>
+
+      <!-- ── TEACHER: GRADES ── -->
+      <div id="view-grades" style="display:none">
+        <div class="section-title">Calificaciones por parcial</div>
+        <div class="section-sub">Resumen de calificaciones y opción de ajuste manual</div>
+        <div class="tab-bar" style="max-width:400px">
+          <button class="tab active" onclick="showGradeTab(1,this)">Parcial 1</button>
+          <button class="tab" onclick="showGradeTab(2,this)">Parcial 2</button>
+          <button class="tab" onclick="showGradeTab(3,this)">Parcial 3</button>
+        </div>
+        <div class="panel" id="gradesPanel"></div>
+      </div>
+
+      <!-- ══ ADMIN VIEWS ══ -->
+
+      <!-- ── ADMIN: USERS ── -->
+      <div id="view-users" style="display:none">
+        <div class="section-title">Gestión de usuarios</div>
+        <div class="section-sub">Crea y administra cuentas de docentes y alumnos</div>
+        <div class="panel">
+          <div class="panel-title">➕ Nuevo usuario</div>
+          <div class="form-row">
+            <input type="text" id="newUsername" placeholder="Usuario (sin espacios)">
+            <input type="password" id="newPassword" placeholder="Contraseña">
+            <input type="text" id="newFullname" placeholder="Nombre completo">
+            <select id="newRole">
+              <option value="student">Alumno</option>
+              <option value="teacher">Docente</option>
+              <option value="admin">Administrador</option>
+            </select>
+          </div>
+          <button class="btn-sm btn-sm-green" onclick="createUser()">Crear usuario</button>
+        </div>
+        <div class="panel">
+          <div class="panel-title">👥 Usuarios registrados</div>
+          <div id="userList"></div>
+        </div>
+      </div>
+
+    </div><!-- /main -->
+  </div><!-- /app-layout -->
+</div><!-- /appScreen -->
+
+<!-- ── MODALS ── -->
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal" id="modalBox">
+    <h3 id="modalTitle">Título</h3>
+    <div id="modalBody"></div>
+    <div class="modal-actions" id="modalActions"></div>
+  </div>
+</div>
 
 <script>
-(function(){
-  "use strict";
+// ═══════════════════════════════════════════════
+// DATA STORE
+// ═══════════════════════════════════════════════
+const DB = {
+  users: [
+    { id:'admin', username:'admin', password:'12345', fullname:'Administrador', role:'admin', xp:0, streak:0, progress:{} },
+    { id:'prof1', username:'prof1', password:'prof123', fullname:'Mtro. García', role:'teacher', xp:0, streak:0, progress:{} },
+    { id:'alu1', username:'alu1', password:'alu123', fullname:'Ana López', role:'student', xp:340, streak:5, progress:{ '1-0':3,'1-1':2,'1-2':1,'2-0':2 } },
+    { id:'alu2', username:'alu2', password:'alu123', fullname:'Carlos Méndez', role:'student', xp:210, streak:3, progress:{ '1-0':3,'1-1':1 } },
+    { id:'alu3', username:'alu3', password:'alu123', fullname:'Diana Rivas', role:'student', xp:480, streak:8, progress:{ '1-0':3,'1-1':3,'1-2':3,'2-0':3,'2-1':2 } },
+    { id:'alu4', username:'alu4', password:'alu123', fullname:'Eduardo Soto', role:'student', xp:90, streak:1, progress:{ '1-0':1 } },
+  ],
+  tasks: [
+    { id:'t1', title:'Sistemas coordenados cartesianos', parcial:1, topicIdx:0, due:'2025-09-30', desc:'Repasa los conceptos del plano cartesiano', assigned: true },
+    { id:'t2', title:'Distancia entre dos puntos', parcial:1, topicIdx:1, due:'2025-10-07', desc:'Practica las fórmulas de distancia', assigned: true },
+  ],
+  taskResults: {
+    'alu1': { 't1': 'done', 't2': 'pending' },
+    'alu2': { 't1': 'done', 't2': 'pending' },
+    'alu3': { 't1': 'done', 't2': 'done' },
+    'alu4': { 't1': 'pending', 't2': 'pending' },
+  }
+};
 
-  const DATA = JSON.parse(document.getElementById('convenios-data').textContent);
+// ═══════════════════════════════════════════════
+// CURRICULUM — 3 PARCIALS × TOPICS × QUESTIONS
+// ═══════════════════════════════════════════════
+const CURRICULUM = [
+  {
+    parcial: 1,
+    color: 'var(--green)', colorLight: 'var(--green-light)',
+    title: 'Geometría Analítica Básica',
+    topics: [
+      {
+        id:'1-0', title:'Plano Cartesiano', emoji:'🗺️',
+        desc:'Sistemas de coordenadas y representación de puntos',
+        xpReward: 10,
+        questions: [
+          { q:'¿Cuáles son las partes del plano cartesiano?', opts:['Eje X y Eje Y','Solo el Eje X','Triángulo y círculo','Cuadrante único'], ans:0, exp:'El plano cartesiano se forma por dos ejes perpendiculares: el eje horizontal (X) y el eje vertical (Y).' },
+          { q:'¿En qué cuadrante están los puntos donde X>0 y Y>0?', opts:['Cuadrante II','Cuadrante I','Cuadrante III','Cuadrante IV'], ans:1, exp:'El Cuadrante I tiene ambas coordenadas positivas (X>0, Y>0).' },
+          { q:'¿Cómo se llama el punto donde los ejes se intersectan?', opts:['Vértice','Centro','Origen','Nodo'], ans:2, exp:'El punto (0,0) donde se cruzan los ejes se llama origen.' },
+          { q:'¿Qué coordenadas tiene el punto medio entre (2,4) y (6,8)?', opts:['(4,6)','(3,5)','(8,12)','(2,4)'], ans:0, exp:'El punto medio es ((2+6)/2, (4+8)/2) = (4, 6).' },
+          { q:'¿En qué cuadrante está el punto (-3, 5)?', opts:['Cuadrante I','Cuadrante II','Cuadrante III','Cuadrante IV'], ans:1, exp:'X negativa y Y positiva corresponden al Cuadrante II.' },
+        ]
+      },
+      {
+        id:'1-1', title:'Distancia entre Puntos', emoji:'📏',
+        desc:'Fórmula de distancia en el plano',
+        xpReward: 15,
+        questions: [
+          { q:'¿Cuál es la fórmula de la distancia entre dos puntos (x₁,y₁) y (x₂,y₂)?', opts:['√((x₂-x₁)²+(y₂-y₁)²)','(x₂-x₁)+(y₂-y₁)','(x₂+x₁)²+(y₂+y₁)²','√(x₁·x₂+y₁·y₂)'], ans:0, exp:'La distancia = √((x₂-x₁)²+(y₂-y₁)²) es el Teorema de Pitágoras aplicado al plano.' },
+          { q:'¿Cuánto mide la distancia entre (0,0) y (3,4)?', opts:['5','7','12','√7'], ans:0, exp:'d = √(3²+4²) = √(9+16) = √25 = 5.' },
+          { q:'¿Cuánto mide la distancia entre (1,2) y (4,6)?', opts:['5','7','3','4'], ans:0, exp:'d = √((4-1)²+(6-2)²) = √(9+16) = √25 = 5.' },
+          { q:'Si la distancia entre (0,0) y (a,0) es 6, ¿cuánto vale a?', opts:['6','3','36','12'], ans:0, exp:'d = √(a²+0) = |a| = 6, entonces a = 6.' },
+          { q:'¿Cuál es el punto medio de (0,0) y (10,6)?', opts:['(5,3)','(10,6)','(2,3)','(4,2)'], ans:0, exp:'Pm = ((0+10)/2, (0+6)/2) = (5,3).' },
+        ]
+      },
+      {
+        id:'1-2', title:'Ecuaciones de la Recta', emoji:'📉',
+        desc:'Pendiente, forma pendiente-ordenada y formas alternativas',
+        xpReward: 20,
+        questions: [
+          { q:'¿Qué representa la "m" en la ecuación y = mx + b?', opts:['La ordenada al origen','La pendiente','La abscisa','El intercepto en x'], ans:1, exp:'En y = mx + b, la "m" representa la pendiente o inclinación de la recta.' },
+          { q:'¿Cuál es la pendiente de la recta que pasa por (0,0) y (2,4)?', opts:['2','4','0.5','1'], ans:0, exp:'m = (y₂-y₁)/(x₂-x₁) = (4-0)/(2-0) = 2.' },
+          { q:'¿Cuál es la pendiente de una recta horizontal?', opts:['Indefinida','1','-1','0'], ans:3, exp:'Las rectas horizontales no tienen cambio en Y, por lo que m = 0.' },
+          { q:'¿Cuál es la ecuación de la recta con m=2 que pasa por (0,3)?', opts:['y = 2x + 3','y = 3x + 2','y = 2x - 3','x = 2y + 3'], ans:0, exp:'Usando y = mx + b con m=2 y b=3: y = 2x + 3.' },
+          { q:'Dos rectas paralelas tienen pendientes...', opts:['Iguales','Opuestas','Cuyo producto es -1','Sumas igual a 0'], ans:0, exp:'Las rectas paralelas nunca se intersectan y tienen exactamente la misma pendiente.' },
+        ]
+      },
+    ]
+  },
+  {
+    parcial: 2,
+    color: 'var(--blue)', colorLight: 'var(--blue-light)',
+    title: 'Funciones y Cónicas',
+    topics: [
+      {
+        id:'2-0', title:'Función Cuadrática', emoji:'🎯',
+        desc:'Parábola, vértice y propiedades',
+        xpReward: 20,
+        questions: [
+          { q:'¿Cuál es la forma estándar de una función cuadrática?', opts:['y = ax² + bx + c','y = ax + b','y = a/x','y = aˣ'], ans:0, exp:'La forma general de una función cuadrática es y = ax² + bx + c, donde a ≠ 0.' },
+          { q:'Si a > 0 en y = ax² + bx + c, la parábola abre...', opts:['Hacia abajo','Hacia arriba','Hacia la derecha','Hacia la izquierda'], ans:1, exp:'Cuando a > 0, la parábola abre hacia arriba con el vértice como mínimo.' },
+          { q:'¿Cuál es la coordenada x del vértice de y = ax² + bx + c?', opts:['x = -b/2a','x = b/2a','x = -b/a','x = b/a'], ans:0, exp:'El vértice se encuentra en x = -b/(2a).' },
+          { q:'¿Cuánto vale f(3) si f(x) = x² - 2x + 1?', opts:['4','6','10','3'], ans:0, exp:'f(3) = 9 - 6 + 1 = 4.' },
+          { q:'¿Cuál es el vértice de y = x² - 4x + 4?', opts:['(2,0)','(0,4)','(-2,0)','(4,0)'], ans:0, exp:'x_v = -(-4)/(2·1) = 2; y_v = 4 - 8 + 4 = 0. Vértice en (2,0).' },
+        ]
+      },
+      {
+        id:'2-1', title:'La Circunferencia', emoji:'⭕',
+        desc:'Ecuación y propiedades de la circunferencia',
+        xpReward: 25,
+        questions: [
+          { q:'¿Cuál es la ecuación de una circunferencia centrada en el origen con radio r?', opts:['x² + y² = r²','x + y = r','x² - y² = r','(x+y)² = r'], ans:0, exp:'La ecuación x² + y² = r² define una circunferencia centrada en (0,0) de radio r.' },
+          { q:'¿Cuál es el radio de la circunferencia x² + y² = 25?', opts:['5','25','√25=5 ✓','Solo 5'], ans:0, exp:'Si x² + y² = r², entonces r = √25 = 5.' },
+          { q:'¿Qué es el radio de una circunferencia?', opts:['La distancia del centro a un punto del borde','El doble del diámetro','La suma de todos los puntos','El área dividida entre π'], ans:0, exp:'El radio es la distancia constante entre el centro y cualquier punto de la circunferencia.' },
+          { q:'La ecuación (x-2)² + (y-3)² = 16 tiene centro en...', opts:['(2,3)','(-2,-3)','(0,0)','(4,4)'], ans:0, exp:'La forma (x-h)² + (y-k)² = r² tiene centro en (h,k) = (2,3).' },
+          { q:'¿Cuánto vale el diámetro de x² + y² = 49?', opts:['14','7','49','21'], ans:0, exp:'Radio = √49 = 7, entonces diámetro = 2r = 14.' },
+        ]
+      },
+      {
+        id:'2-2', title:'Proporcionalidad Directa', emoji:'📊',
+        desc:'Relaciones lineales que pasan por el origen',
+        xpReward: 20,
+        questions: [
+          { q:'En y = kx, si x aumenta al doble, y...', opts:['Se duplica','Se divide entre 2','No cambia','Se eleva al cuadrado'], ans:0, exp:'En proporcionalidad directa y = kx, si x·2 entonces y·2 también.' },
+          { q:'¿Cuánto vale k si y = 15 cuando x = 3?', opts:['5','45','0.2','12'], ans:0, exp:'k = y/x = 15/3 = 5.' },
+          { q:'La gráfica de y = kx siempre pasa por...', opts:['El origen (0,0)','El punto (1,1)','El punto (k,k)','El eje Y'], ans:0, exp:'Cuando x=0, y=k·0=0, por lo tanto la recta siempre pasa por el origen.' },
+          { q:'Si y/x = constante, ¿qué tipo de proporcionalidad es?', opts:['Directa','Inversa','Cuadrática','Exponencial'], ans:0, exp:'y/x = k constante es la definición de proporcionalidad directa.' },
+          { q:'¿Cuánto vale y cuando x=7 si y=3x?', opts:['21','10','4','0'], ans:0, exp:'y = 3·7 = 21.' },
+        ]
+      },
+    ]
+  },
+  {
+    parcial: 3,
+    color: 'var(--purple)', colorLight: 'var(--purple-light)',
+    title: 'Trigonometría y Curvas Polares',
+    topics: [
+      {
+        id:'3-0', title:'Identidades Trigonométricas', emoji:'📐',
+        desc:'Seno, coseno, tangente y sus relaciones',
+        xpReward: 25,
+        questions: [
+          { q:'¿Cuál es la identidad pitagórica fundamental?', opts:['sen²θ + cos²θ = 1','senθ + cosθ = 1','sen²θ - cos²θ = 0','tanθ = 1'], ans:0, exp:'sen²θ + cos²θ = 1 es la identidad pitagórica fundamental, derivada del Teorema de Pitágoras.' },
+          { q:'¿Cuánto vale sen(90°)?', opts:['1','0','0.5','√2/2'], ans:0, exp:'sen(90°) = 1, es uno de los valores del círculo unitario.' },
+          { q:'¿Cuánto vale cos(0°)?', opts:['0','1','-1','0.5'], ans:1, exp:'cos(0°) = 1, ya que en el círculo unitario el punto (1,0) corresponde a 0°.' },
+          { q:'¿Cuál es la definición de tangente?', opts:['sen/cos','cos/sen','1/cos','1/sen'], ans:0, exp:'tanθ = senθ/cosθ.' },
+          { q:'Si sen θ = 0.6 y cos θ = 0.8, ¿cuánto vale tan θ?', opts:['0.75','1','0.5','1.5'], ans:0, exp:'tan θ = 0.6/0.8 = 0.75.' },
+        ]
+      },
+      {
+        id:'3-1', title:'Coordenadas Polares', emoji:'🌀',
+        desc:'Sistema polar y conversión con coordenadas cartesianas',
+        xpReward: 30,
+        questions: [
+          { q:'¿Cómo se representa un punto en coordenadas polares?', opts:['(r, θ)','(x, y)','(a, b)','(r, x)'], ans:0, exp:'En coordenadas polares un punto se describe por su distancia r al origen y su ángulo θ.' },
+          { q:'Para convertir de polar a cartesiano: x = ?', opts:['r·cosθ','r·senθ','r/cosθ','cosθ/r'], ans:0, exp:'x = r·cosθ es la fórmula de conversión de coordenada polar a cartesiana.' },
+          { q:'¿Qué curva describe r = constante en polares?', opts:['Circunferencia','Recta','Parábola','Espiral'], ans:0, exp:'Si r es constante, todos los puntos están a la misma distancia del origen: es una circunferencia.' },
+          { q:'El cardiode es una curva polar con ecuación:', opts:['r = a(1 + cosθ)','r = a·θ','r = a/θ','r² = a²cosθ'], ans:0, exp:'El cardiode tiene la ecuación r = a(1 + cosθ) y su gráfica tiene forma de corazón.' },
+          { q:'¿Qué ventaja tienen las coordenadas polares?', opts:['Simplifican curvas como espirales y cardiodes','Son más fáciles para sumas','Sirven solo en 3D','No tienen ventaja'], ans:0, exp:'Las coordenadas polares simplifican enormemente la descripción de curvas simétricas como espirales, cardiodes y rosas.' },
+        ]
+      },
+      {
+        id:'3-2', title:'Espirales y Curvas Especiales', emoji:'🌸',
+        desc:'Rosas, espirales de Arquímedes y otras curvas polares',
+        xpReward: 35,
+        questions: [
+          { q:'La espiral de Arquímedes tiene ecuación:', opts:['r = aθ','r = a/θ','r = acos(θ)','r = a+b'], ans:0, exp:'r = aθ produce la espiral de Arquímedes, donde la distancia al origen crece proporcionalmente al ángulo.' },
+          { q:'Una rosa polar r = cos(2θ) tiene:', opts:['4 pétalos','2 pétalos','3 pétalos','6 pétalos'], ans:0, exp:'r = cos(nθ) produce 2n pétalos si n es par (n=2 → 4 pétalos).' },
+          { q:'¿Cuál es una característica de las curvas polares simétricas respecto al eje polar?', opts:['f(θ) = f(-θ)','f(θ) = -f(θ)','f(θ) = f(θ+π)','f(θ) = 1'], ans:0, exp:'Una curva polar es simétrica respecto al eje polar si f(θ) = f(-θ).' },
+          { q:'La lemniscata de Bernoulli tiene ecuación:', opts:['r² = a²cos(2θ)','r = a²cos(θ)','r² = a·θ','r = a²θ²'], ans:0, exp:'r² = a²cos(2θ) es la lemniscata, una curva con forma de ∞ (infinito).' },
+          { q:'¿Qué ángulo θ en radianes equivale a 180°?', opts:['π','2π','π/2','π/4'], ans:0, exp:'180° = π radianes. Conversión: multiplicar grados por π/180.' },
+        ]
+      },
+    ]
+  }
+];
 
-  /* ---------- Icons (16x16 line icons) ---------- */
-  const ICONS = {
-    "Electricidad": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 11 14 9 22 21 10 13 10 13 2"></polygon></svg>',
-    "Mecatrónica": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.7 1.7 0 0 0-1.87-.34 1.7 1.7 0 0 0-1.03 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.36a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.64 15a1.7 1.7 0 0 0-1.55-1.03H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.64 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.64 1.7 1.7 0 0 0 10.03 3.1V3a2 2 0 1 1 4 0v.09A1.7 1.7 0 0 0 15 4.64a1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.36 9a1.7 1.7 0 0 0 1.55 1.03H21a2 2 0 1 1 0 4h-.09A1.7 1.7 0 0 0 19.4 15z"></path></svg>',
-    "Programación": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>',
-    "Construcción": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"></path><path d="M5 21V9l7-5 7 5v12"></path><path d="M9 21v-6h6v6"></path></svg>',
-    "Administración": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="13" rx="1"></rect><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"></path></svg>',
-    "Trabajo Social": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H7a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>',
-    "Otra": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>',
-    "No especificada": '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"></line></svg>'
+const TIPS = [
+  'La distancia entre (x₁,y₁) y (x₂,y₂) = √((x₂-x₁)²+(y₂-y₁)²)',
+  'El vértice de y=ax²+bx+c está en x = -b/(2a)',
+  'sen²θ + cos²θ = 1 siempre (identidad pitagórica)',
+  'En coordenadas polares: x = r·cosθ, y = r·senθ',
+  'La pendiente de una recta es m = (y₂-y₁)/(x₂-x₁)',
+  'El cardiode r = a(1+cosθ) tiene simetría respecto al eje polar',
+  'Para rectas paralelas: pendientes iguales. Perpendiculares: m₁·m₂ = -1',
+];
+
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let currentUser = null;
+let currentView = 'home';
+let quizState = { questions:[], current:0, correct:0, xpEarned:0, topicId:'', lives:3 };
+let selectedParcial = 0;
+let currentGradeTab = 1;
+
+// ═══════════════════════════════════════════════
+// AUTH
+// ═══════════════════════════════════════════════
+function doLogin() {
+  const u = document.getElementById('loginUser').value.trim();
+  const p = document.getElementById('loginPass').value.trim();
+  const user = DB.users.find(x => x.username === u && x.password === p);
+  if (!user) { document.getElementById('loginErr').textContent = 'Usuario o contraseña incorrectos.'; return; }
+  currentUser = user;
+  document.getElementById('loginErr').textContent = '';
+  document.getElementById('loginUser').value = '';
+  document.getElementById('loginPass').value = '';
+  enterApp();
+}
+
+function doLogout() {
+  currentUser = null;
+  document.getElementById('loginScreen').classList.add('active');
+  document.getElementById('appScreen').classList.remove('active');
+}
+
+function enterApp() {
+  document.getElementById('loginScreen').classList.remove('active');
+  document.getElementById('appScreen').classList.add('active');
+  buildTopBar();
+  buildSidebar();
+  buildParcialGrid();
+  showView('home');
+  document.getElementById('tipOfDay').textContent = TIPS[Math.floor(Math.random()*TIPS.length)];
+}
+
+// ═══════════════════════════════════════════════
+// UI HELPERS
+// ═══════════════════════════════════════════════
+function buildTopBar() {
+  const u = currentUser;
+  const initials = u.fullname.split(' ').map(w=>w[0]).slice(0,2).join('');
+  const colors = ['var(--green-dark)','var(--blue-dark)','var(--purple-dark)','var(--orange-dark)'];
+  const color = colors[u.id.length % colors.length];
+  document.getElementById('topAvatar').textContent = initials;
+  document.getElementById('topAvatar').style.background = color;
+  document.getElementById('topName').textContent = u.fullname;
+  const roleNames = { admin:'Administrador', teacher:'Docente', student:'Alumno' };
+  document.getElementById('topRole').textContent = roleNames[u.role];
+  document.getElementById('topXP').textContent = u.xp || 0;
+  document.getElementById('topStreak').textContent = u.streak || 0;
+}
+
+function buildSidebar() {
+  const teacherNav = document.getElementById('teacherNav');
+  teacherNav.innerHTML = '';
+  if (currentUser.role === 'teacher' || currentUser.role === 'admin') {
+    teacherNav.innerHTML = `
+      <div style="font-size:0.72rem;font-weight:700;color:var(--gray-400);padding:0.3rem 0.8rem;letter-spacing:0.06em;">DOCENTE</div>
+      <button class="nav-item" onclick="showView('tdash',this)"><span class="nav-icon">📊</span> Dashboard</button>
+      <button class="nav-item" onclick="showView('assign',this)"><span class="nav-icon">📌</span> Asignar tareas</button>
+      <button class="nav-item" onclick="showView('grades',this)"><span class="nav-icon">🎓</span> Calificaciones</button>
+    `;
+  }
+  if (currentUser.role === 'admin') {
+    teacherNav.innerHTML += `
+      <div class="nav-sep"></div>
+      <div style="font-size:0.72rem;font-weight:700;color:var(--gray-400);padding:0.3rem 0.8rem;letter-spacing:0.06em;">ADMIN</div>
+      <button class="nav-item" onclick="showView('users',this)"><span class="nav-icon">👥</span> Usuarios</button>
+    `;
+  }
+}
+
+function showView(view, btn) {
+  // Hide all views
+  document.querySelectorAll('[id^="view-"]').forEach(el => el.style.display = 'none');
+  // Deactivate nav
+  document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  currentView = view;
+  const el = document.getElementById('view-' + view);
+  if (el) el.style.display = 'block';
+
+  // Init view content
+  if (view === 'home') buildHome();
+  if (view === 'aprende') buildAprende();
+  if (view === 'tareas') buildStudentTasks();
+  if (view === 'ranking') buildRanking();
+  if (view === 'tdash') buildTeacherDash();
+  if (view === 'assign') buildAssign();
+  if (view === 'grades') buildGrades();
+  if (view === 'users') buildUsers();
+}
+
+// ═══════════════════════════════════════════════
+// HOME
+// ═══════════════════════════════════════════════
+function buildHome() {
+  const u = currentUser;
+  document.getElementById('homeGreet').textContent = '¡Hola, ' + u.fullname.split(' ')[0] + '! 👋';
+  buildParcialGrid();
+  buildMyProgress();
+}
+
+function buildParcialGrid() {
+  const grid = document.getElementById('parcialGrid');
+  if (!grid) return;
+  const u = currentUser;
+  grid.innerHTML = CURRICULUM.map((p, i) => {
+    const topicsDone = p.topics.filter(t => (u.progress[t.id]||0) >= 1).length;
+    const pct = Math.round((topicsDone/p.topics.length)*100);
+    const isLocked = i > 0 && CURRICULUM[i-1].topics.filter(t=>(u.progress[t.id]||0)>=1).length < 1;
+    return `
+    <div class="parcial-card ${isLocked?'locked':''}" onclick="${isLocked?'':'goToParcial('+i+')'}" style="border-top: 4px solid ${p.color}">
+      ${isLocked?'<span class="lock-icon">🔒</span>':''}
+      <div class="p-num" style="color:${p.color}">P${p.parcial}</div>
+      <div style="font-size:0.85rem;font-weight:700;margin-top:2px">${p.title}</div>
+      <div class="p-title">${topicsDone}/${p.topics.length} temas</div>
+      <div class="p-progress"><div class="p-bar" style="width:${pct}%;background:${p.color}"></div></div>
+      <div class="p-pct">${pct}%</div>
+    </div>`;
+  }).join('');
+}
+
+function buildMyProgress() {
+  const u = currentUser;
+  const el = document.getElementById('myProgressBars');
+  if (!el) return;
+  el.innerHTML = CURRICULUM.map(p => {
+    const done = p.topics.filter(t=>(u.progress[t.id]||0)>=1).length;
+    const pct = Math.round((done/p.topics.length)*100);
+    return `<div style="margin-bottom:0.8rem">
+      <div style="display:flex;justify-content:space-between;margin-bottom:4px">
+        <span style="font-size:0.85rem;font-weight:600">Parcial ${p.parcial}: ${p.title}</span>
+        <span style="font-size:0.82rem;color:var(--gray-400)">${pct}%</span>
+      </div>
+      <div style="height:8px;background:var(--gray-200);border-radius:999px;overflow:hidden">
+        <div style="height:100%;background:${p.color};width:${pct}%;border-radius:999px;transition:width 0.6s"></div>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function goToParcial(idx) {
+  selectedParcial = idx;
+  showView('aprende');
+  buildAprende();
+}
+
+// ═══════════════════════════════════════════════
+// APRENDE — TOPIC PATH
+// ═══════════════════════════════════════════════
+function buildAprende() {
+  const tabBar = document.getElementById('parcialTabs');
+  tabBar.innerHTML = CURRICULUM.map((p,i) =>
+    `<button class="tab ${i===selectedParcial?'active':''}" onclick="selectParcialTab(${i},this)">${p.parcial}° Parcial</button>`
+  ).join('');
+  renderTopicPath();
+}
+
+function selectParcialTab(idx, btn) {
+  selectedParcial = idx;
+  document.querySelectorAll('#parcialTabs .tab').forEach(t=>t.classList.remove('active'));
+  btn.classList.add('active');
+  renderTopicPath();
+}
+
+function renderTopicPath() {
+  const u = currentUser;
+  const parcial = CURRICULUM[selectedParcial];
+  const path = document.getElementById('topicPath');
+  let html = '';
+  parcial.topics.forEach((topic, i) => {
+    const stars = u.progress[topic.id] || 0;
+    const prevDone = i === 0 || (u.progress[parcial.topics[i-1].id] || 0) >= 1;
+    const isActive = prevDone && stars < 3;
+    const isDone = stars >= 1;
+    const isLocked = !prevDone;
+    const dir = i % 2 === 0 ? '' : 'right';
+
+    const starsHtml = [1,2,3].map(s=>`<span class="star ${stars>=s?'filled':''}">★</span>`).join('');
+    let bubbleClass = 'locked-node';
+    if (isDone) bubbleClass = 'done';
+    else if (isActive) bubbleClass = 'active-node';
+
+    if (i > 0) {
+      html += `<div class="node-connector ${(u.progress[parcial.topics[i-1].id]||0)>=1?'done-conn':''}"></div>`;
+    }
+
+    html += `
+    <div class="topic-node ${dir}">
+      <div class="node-bubble ${bubbleClass}" onclick="${isLocked?'':'startQuiz(\''+topic.id+'\')'}">
+        ${topic.emoji}
+        ${isDone?'<div class="node-badge">✓</div>':''}
+      </div>
+      <div class="node-info">
+        <h3>${topic.title}</h3>
+        <p>${topic.desc}</p>
+        <div class="node-stars">${starsHtml}</div>
+        <div style="font-size:0.75rem;color:var(--gray-400);margin-top:2px">+${topic.xpReward} XP por respuesta</div>
+        ${isLocked?'<span style="font-size:0.75rem;color:var(--red-dark)">🔒 Completa el tema anterior</span>':''}
+        ${isActive?`<button onclick="startQuiz('${topic.id}')" style="margin-top:6px;padding:4px 14px;background:var(--blue);color:#fff;border:none;border-radius:6px;font-size:0.8rem;font-weight:700;cursor:pointer">¡Practicar!</button>`:''}
+      </div>
+    </div>`;
+  });
+  path.innerHTML = html;
+}
+
+// ═══════════════════════════════════════════════
+// QUIZ ENGINE
+// ═══════════════════════════════════════════════
+function startQuiz(topicId) {
+  // Find topic
+  let topic = null;
+  for (const p of CURRICULUM) {
+    const t = p.topics.find(x=>x.id===topicId);
+    if (t) { topic = t; break; }
+  }
+  if (!topic) return;
+
+  // Shuffle questions
+  const qs = [...topic.questions].sort(()=>Math.random()-0.5);
+  quizState = { questions: qs, current: 0, correct: 0, xpEarned: 0, topicId, lives: 3, xpPerQ: topic.xpReward };
+
+  document.querySelectorAll('[id^="view-"]').forEach(el => el.style.display = 'none');
+  document.getElementById('view-quiz').style.display = 'block';
+  renderQuestion();
+}
+
+function renderQuestion() {
+  const { questions, current, lives } = quizState;
+  const q = questions[current];
+  const total = questions.length;
+
+  // Lives
+  document.getElementById('quizLives').innerHTML = [1,2,3].map(i=>
+    `<span class="life">${i<=lives?'❤️':'🖤'}</span>`
+  ).join('');
+
+  document.getElementById('quizProg').style.width = (current/total*100)+'%';
+  document.getElementById('quizQNum').textContent = `Pregunta ${current+1} de ${total}`;
+  document.getElementById('quizXPEarn').textContent = quizState.xpPerQ;
+  document.getElementById('quizQ').textContent = q.q;
+
+  const optsEl = document.getElementById('quizOpts');
+  optsEl.innerHTML = q.opts.map((o,i)=>
+    `<button class="quiz-opt" onclick="selectAnswer(${i})">${String.fromCharCode(65+i)}) ${o}</button>`
+  ).join('');
+
+  const fb = document.getElementById('quizFB');
+  fb.className = 'quiz-feedback';
+  fb.innerHTML = '';
+  document.getElementById('btnNext').className = 'btn-next';
+}
+
+function selectAnswer(idx) {
+  const q = quizState.questions[quizState.current];
+  const opts = document.querySelectorAll('.quiz-opt');
+  opts.forEach(b=>b.disabled=true);
+
+  const fb = document.getElementById('quizFB');
+  const isCorrect = idx === q.ans;
+
+  opts[idx].classList.add(isCorrect ? 'correct' : 'wrong');
+  if (!isCorrect) opts[q.ans].classList.add('correct');
+
+  if (isCorrect) {
+    quizState.correct++;
+    quizState.xpEarned += quizState.xpPerQ;
+    fb.className = 'quiz-feedback correct-fb show';
+    fb.innerHTML = `<p>✅ ¡Correcto!</p><div class="explain">${q.exp}</div>`;
+  } else {
+    quizState.lives--;
+    fb.className = 'quiz-feedback wrong-fb show';
+    fb.innerHTML = `<p>❌ Respuesta incorrecta</p><div class="explain">${q.exp}</div>`;
+    if (quizState.lives <= 0) {
+      setTimeout(() => endQuiz(true), 1200);
+      return;
+    }
+  }
+  document.getElementById('btnNext').className = 'btn-next show';
+}
+
+function nextQuestion() {
+  quizState.current++;
+  if (quizState.current >= quizState.questions.length) {
+    endQuiz(false);
+  } else {
+    renderQuestion();
+  }
+}
+
+function endQuiz(outOfLives) {
+  const { correct, questions, xpEarned, topicId } = quizState;
+  const total = questions.length;
+  const acc = Math.round((correct/total)*100);
+
+  // Award XP and stars
+  const u = currentUser;
+  u.xp = (u.xp||0) + xpEarned;
+  u.streak = (u.streak||0) + 1;
+  const stars = acc >= 90 ? 3 : acc >= 60 ? 2 : acc >= 30 ? 1 : 0;
+  const prevStars = u.progress[topicId] || 0;
+  if (stars > prevStars) u.progress[topicId] = stars;
+
+  document.getElementById('topXP').textContent = u.xp;
+  document.getElementById('topStreak').textContent = u.streak;
+
+  // Show result
+  document.querySelectorAll('[id^="view-"]').forEach(el=>el.style.display='none');
+  document.getElementById('view-result').style.display = 'block';
+
+  const emoji = acc >= 90 ? '🎉' : acc >= 60 ? '😊' : acc >= 30 ? '😅' : '😢';
+  const title = acc >= 90 ? '¡Excelente!' : acc >= 60 ? '¡Bien hecho!' : acc >= 30 ? 'Sigue practicando' : 'No te rindas';
+  document.getElementById('resultEmoji').textContent = emoji;
+  document.getElementById('resultTitle').textContent = title;
+  document.getElementById('resultMsg').textContent = outOfLives ? 'Te quedaste sin vidas. ¡Inténtalo de nuevo!' : `Completaste el ejercicio con ${acc}% de exactitud.`;
+  document.getElementById('rCorrect').textContent = correct+'/'+total;
+  document.getElementById('rXP').textContent = '+'+xpEarned;
+  document.getElementById('rAcc').textContent = acc+'%';
+}
+
+function backFromQuiz() {
+  showView('aprende');
+  buildAprende();
+}
+
+// ═══════════════════════════════════════════════
+// TAREAS (STUDENT)
+// ═══════════════════════════════════════════════
+function buildStudentTasks() {
+  const u = currentUser;
+  const results = DB.taskResults[u.id] || {};
+  const el = document.getElementById('studentTaskList');
+  if (DB.tasks.length === 0) { el.innerHTML = '<div class="empty-state"><span class="e-icon">📭</span>No hay tareas asignadas</div>'; return; }
+  el.innerHTML = DB.tasks.map(task => {
+    const status = results[task.id] || 'pending';
+    const isOver = new Date(task.due) < new Date() && status !== 'done';
+    const badgeClass = status==='done'?'badge-done':isOver?'badge-overdue':'badge-pending';
+    const badgeText = status==='done'?'✅ Entregada':isOver?'⚠️ Vencida':'⏳ Pendiente';
+    return `
+    <div class="task-card">
+      <div class="task-info">
+        <h4>${task.title}</h4>
+        <p>Parcial ${task.parcial} • Entrega: ${task.due}${task.desc?' • '+task.desc:''}</p>
+      </div>
+      <div class="task-badge" style="display:flex;flex-direction:column;align-items:flex-end;gap:6px">
+        <span class="badge ${badgeClass}">${badgeText}</span>
+        ${status!=='done'?`<button class="btn-do-task" onclick="doTaskQuiz('${task.id}')">Hacer ahora →</button>`:''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function doTaskQuiz(taskId) {
+  const task = DB.tasks.find(t=>t.id===taskId);
+  if (!task) return;
+  const parcial = CURRICULUM[task.parcial-1];
+  const topic = parcial.topics[task.topicIdx];
+  if (!topic) return;
+  // Mark done after quiz
+  DB.taskResults[currentUser.id] = DB.taskResults[currentUser.id]||{};
+  DB.taskResults[currentUser.id][taskId] = 'done';
+  startQuiz(topic.id);
+}
+
+// ═══════════════════════════════════════════════
+// RANKING
+// ═══════════════════════════════════════════════
+function buildRanking() {
+  const students = DB.users.filter(u=>u.role==='student').sort((a,b)=>(b.xp||0)-(a.xp||0));
+  const myRank = students.findIndex(s=>s.id===currentUser.id)+1;
+  const el = document.getElementById('rankingList');
+  el.innerHTML = students.map((s,i) => {
+    const rank = i+1;
+    const cls = rank===1?'rank-1':rank===2?'rank-2':rank===3?'rank-3':'rank-other';
+    const medal = rank===1?'🥇':rank===2?'🥈':rank===3?'🥉':rank;
+    const isMe = s.id===currentUser.id;
+    return `<div class="rank-item" style="${isMe?'background:var(--green-xlight);border-radius:var(--radius-sm)':''}">
+      <div class="rank-num ${cls}">${medal}</div>
+      <div class="rank-name">${s.fullname} ${isMe?'<span style="font-size:0.75rem;color:var(--green-dark);font-weight:700">(tú)</span>':''}</div>
+      <div style="font-size:0.78rem;color:var(--gray-400)">${s.streak||0}🔥</div>
+      <div class="rank-xp">⚡${s.xp||0} XP</div>
+    </div>`;
+  }).join('');
+}
+
+// ═══════════════════════════════════════════════
+// TEACHER — DASHBOARD
+// ═══════════════════════════════════════════════
+function buildTeacherDash() {
+  const students = DB.users.filter(u=>u.role==='student');
+  const avgXP = students.length ? Math.round(students.reduce((a,s)=>(a+(s.xp||0)),0)/students.length) : 0;
+  const tasksCompleted = Object.values(DB.taskResults).reduce((sum,r)=>sum+Object.values(r).filter(v=>v==='done').length,0);
+
+  document.getElementById('teacherStats').innerHTML = `
+    <div class="stat-card"><div class="s-val" style="color:var(--blue)">${students.length}</div><div class="s-lbl">Alumnos</div></div>
+    <div class="stat-card"><div class="s-val" style="color:var(--green)">${avgXP}</div><div class="s-lbl">XP promedio</div></div>
+    <div class="stat-card"><div class="s-val" style="color:var(--orange-dark)">${DB.tasks.length}</div><div class="s-lbl">Tareas activas</div></div>
+    <div class="stat-card"><div class="s-val" style="color:var(--purple)">${tasksCompleted}</div><div class="s-lbl">Entregas hechas</div></div>
+  `;
+
+  document.getElementById('studentTableBody').innerHTML = students.map(s => {
+    const grades = calcGrades(s);
+    const avg = ((grades[0]+grades[1]+grades[2])/3).toFixed(1);
+    const gc = avg>=9?'A':avg>=7?'B':avg>=6?'C':'D';
+    const prog = (i) => {
+      const p = CURRICULUM[i];
+      const done = p.topics.filter(t=>(s.progress[t.id]||0)>=1).length;
+      const pct = Math.round((done/p.topics.length)*100);
+      return `<div style="display:flex;align-items:center;gap:6px">
+        <div class="progress-mini"><div class="progress-mini-inner" style="width:${pct}%"></div></div>
+        <span style="font-size:0.75rem;color:var(--gray-400)">${grades[i]}</span>
+      </div>`;
+    };
+    return `<tr>
+      <td><strong>${s.fullname}</strong><div style="font-size:0.75rem;color:var(--gray-400)">⚡${s.xp||0} XP • 🔥${s.streak||0}</div></td>
+      <td>${prog(0)}</td><td>${prog(1)}</td><td>${prog(2)}</td>
+      <td><span class="xp-pill">⚡ ${s.xp||0}</span></td>
+      <td><span class="grade-badge grade-${gc}">${avg}</span></td>
+    </tr>`;
+  }).join('');
+}
+
+function calcGrades(student) {
+  return CURRICULUM.map(p => {
+    const totalStars = p.topics.reduce((a,t)=>a+(student.progress[t.id]||0),0);
+    const maxStars = p.topics.length * 3;
+    const pct = maxStars > 0 ? (totalStars/maxStars) : 0;
+    // Task bonus
+    const taskBonus = DB.tasks.filter(t=>t.parcial===p.parcial).reduce((bonus,task)=>{
+      const res = (DB.taskResults[student.id]||{})[task.id];
+      return bonus + (res==='done' ? 0.5 : 0);
+    }, 0);
+    const raw = Math.min(10, (pct*9) + 5 * (pct>0.1?1:0) + taskBonus);
+    return Math.max(5, Math.round(raw*10)/10);
+  });
+}
+
+// ═══════════════════════════════════════════════
+// TEACHER — ASSIGN TASKS
+// ═══════════════════════════════════════════════
+function buildAssign() {
+  // Populate topic dropdown based on parcial
+  const parcialSel = document.getElementById('taskParcial');
+  const topicSel = document.getElementById('taskTopic');
+  parcialSel.onchange = () => {
+    const p = parseInt(parcialSel.value);
+    if (!p) { topicSel.innerHTML = '<option>-- Selecciona parcial --</option>'; return; }
+    const topics = CURRICULUM[p-1].topics;
+    topicSel.innerHTML = topics.map((t,i)=>`<option value="${i}">${t.emoji} ${t.title}</option>`).join('');
   };
-  const PIN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 1 1 18 0z"></path><circle cx="12" cy="10" r="3"></circle></svg>';
-  const PHONE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.12.81.3 1.6.54 2.37a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.71-1.11a2 2 0 0 1 2.11-.45c.77.24 1.56.42 2.37.54A2 2 0 0 1 22 16.92z"></path></svg>';
-  const TAG = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41 11 23l-9-9 9.59-9.59A2 2 0 0 1 13 4h6a2 2 0 0 1 2 2v6a2 2 0 0 1-.41 1.41z"></path><circle cx="16" cy="8" r="1.5"></circle></svg>';
 
-  const CAREER_ORDER = ["Programación","Mecatrónica","Electricidad","Construcción","Administración","Trabajo Social","Otra","No especificada"];
-  const CAREER_LABEL = {"Otra":"Otra especialidad","No especificada":"Sin especialidad registrada"};
+  const list = document.getElementById('teacherTaskList');
+  if (DB.tasks.length === 0) { list.innerHTML = '<div class="empty-state"><span class="e-icon">📭</span>Sin tareas asignadas</div>'; return; }
+  list.innerHTML = DB.tasks.map(task=>`
+    <div class="task-card">
+      <div class="task-info">
+        <h4>${task.title}</h4>
+        <p>Parcial ${task.parcial} • Entrega: ${task.due}${task.desc?' • '+task.desc:''}</p>
+      </div>
+      <div style="display:flex;gap:6px">
+        <button class="btn-sm btn-sm-red" onclick="deleteTask('${task.id}')">🗑 Eliminar</button>
+      </div>
+    </div>`).join('');
+}
 
-  const STATUS_STYLE = {
-    "Vigente":   {color:"vigente",   bg:"vigente-bg"},
-    "Por vencer":{color:"porvencer", bg:"porvencer-bg"},
-    "Vencido":   {color:"vencido",   bg:"vencido-bg"},
-    "Sin dato":  {color:"sindato",   bg:"sindato-bg"}
-  };
+function assignTask() {
+  const parcial = parseInt(document.getElementById('taskParcial').value);
+  const topicIdx = parseInt(document.getElementById('taskTopic').value);
+  const due = document.getElementById('taskDue').value;
+  const desc = document.getElementById('taskDesc').value;
+  if (!parcial || isNaN(topicIdx) || !due) { alert('Completa todos los campos requeridos'); return; }
+  const topic = CURRICULUM[parcial-1].topics[topicIdx];
+  DB.tasks.push({ id:'t'+Date.now(), title:topic.title, parcial, topicIdx, due, desc, assigned:true });
+  buildAssign();
+}
 
-  /* ---------- Derive filter option lists ---------- */
-  const municipios = [...new Set(DATA.map(d=>d.municipio))].sort((a,b)=>a.localeCompare(b,'es'));
-  const careerCounts = {};
-  DATA.forEach(d=>d.carreras.forEach(c=>{careerCounts[c]=(careerCounts[c]||0)+1;}));
+function deleteTask(id) {
+  const idx = DB.tasks.findIndex(t=>t.id===id);
+  if (idx>=0) DB.tasks.splice(idx,1);
+  buildAssign();
+}
 
-  const municipioSelect = document.getElementById('municipioSelect');
-  municipios.forEach(m=>{
-    const opt = document.createElement('option');
-    opt.value = m; opt.textContent = m;
-    municipioSelect.appendChild(opt);
-  });
+// ═══════════════════════════════════════════════
+// TEACHER — GRADES
+// ═══════════════════════════════════════════════
+function buildGrades() {
+  showGradeTab(currentGradeTab, null);
+}
 
-  const careerChipsEl = document.getElementById('careerChips');
-  const activeCareers = new Set();
-  CAREER_ORDER.filter(c=>careerCounts[c]).forEach(c=>{
-    const chip = document.createElement('button');
-    chip.type='button';
-    chip.className='chip';
-    chip.setAttribute('aria-pressed','false');
-    chip.dataset.career = c;
-    chip.innerHTML = (ICONS[c]||'') + '<span>'+(CAREER_LABEL[c]||c)+'</span><span class="count">'+careerCounts[c]+'</span>';
-    chip.addEventListener('click', ()=>{
-      const pressed = chip.getAttribute('aria-pressed')==='true';
-      chip.setAttribute('aria-pressed', String(!pressed));
-      if(pressed) activeCareers.delete(c); else activeCareers.add(c);
-      render();
-    });
-    careerChipsEl.appendChild(chip);
-  });
-
-  /* ---------- Stats bar ---------- */
-  const statsGrid = document.getElementById('statsGrid');
-  const totalVigentes = DATA.filter(d=>d.estatus==='Vigente').length;
-  const stats = [
-    {n:DATA.length, l:'Empresas en el padrón'},
-    {n:totalVigentes, l:'Convenios vigentes'},
-    {n:municipios.length, l:'Municipios'},
-    {n:CAREER_ORDER.filter(c=>careerCounts[c] && c!=='Otra' && c!=='No especificada').length, l:'Especialidades con oferta'}
-  ];
-  stats.forEach(s=>{
-    const div = document.createElement('div');
-    div.className='stat';
-    div.innerHTML = '<span class="n">'+s.n+'</span><span class="l">'+s.l+'</span>';
-    statsGrid.appendChild(div);
-  });
-
-  /* ---------- State ---------- */
-  const state = { q:'', municipio:'all', statusMode:'recomendado' };
-
-  const searchInput = document.getElementById('searchInput');
-  let debounceTimer;
-  searchInput.addEventListener('input', ()=>{
-    clearTimeout(debounceTimer);
-    debounceTimer = setTimeout(()=>{ state.q = searchInput.value.trim().toLowerCase(); render(); }, 150);
-  });
-
-  municipioSelect.addEventListener('change', ()=>{ state.municipio = municipioSelect.value; render(); });
-
-  const segButtons = document.querySelectorAll('#statusSegmented button');
-  segButtons.forEach(btn=>{
-    btn.addEventListener('click', ()=>{
-      segButtons.forEach(b=>b.setAttribute('aria-pressed','false'));
-      btn.setAttribute('aria-pressed','true');
-      state.statusMode = btn.dataset.status;
-      render();
-    });
-  });
-
-  function resetFilters(){
-    state.q=''; state.municipio='all'; state.statusMode='recomendado';
-    searchInput.value=''; municipioSelect.value='all';
-    segButtons.forEach(b=>b.setAttribute('aria-pressed', b.dataset.status==='recomendado' ? 'true':'false'));
-    activeCareers.clear();
-    careerChipsEl.querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false'));
-    render();
+function showGradeTab(n, btn) {
+  currentGradeTab = n;
+  if (btn) {
+    document.querySelectorAll('#view-grades .tab').forEach(t=>t.classList.remove('active'));
+    btn.classList.add('active');
   }
-  document.getElementById('clearBtn').addEventListener('click', resetFilters);
-  document.getElementById('emptyClearBtn').addEventListener('click', resetFilters);
+  const students = DB.users.filter(u=>u.role==='student');
+  const panel = document.getElementById('gradesPanel');
+  panel.innerHTML = `
+    <div class="panel-title">📝 Calificaciones — Parcial ${n}</div>
+    <table class="student-table">
+      <thead><tr><th>Alumno</th><th>Temas completados</th><th>Tareas entregadas</th><th>Calificación</th><th>Ajuste manual</th></tr></thead>
+      <tbody>
+        ${students.map(s=>{
+          const grades = calcGrades(s);
+          const grade = grades[n-1];
+          const p = CURRICULUM[n-1];
+          const done = p.topics.filter(t=>(s.progress[t.id]||0)>=1).length;
+          const tasksDone = DB.tasks.filter(t=>t.parcial===n).filter(t=>(DB.taskResults[s.id]||{})[t.id]==='done').length;
+          const tasksTotal = DB.tasks.filter(t=>t.parcial===n).length;
+          const gc = grade>=9?'A':grade>=7?'B':grade>=6?'C':'D';
+          return `<tr>
+            <td><strong>${s.fullname}</strong></td>
+            <td>${done}/${p.topics.length}</td>
+            <td>${tasksDone}/${tasksTotal}</td>
+            <td><span class="grade-badge grade-${gc}">${grade}</span></td>
+            <td>
+              <input type="number" min="0" max="10" step="0.5" value="${grade}"
+                style="width:60px;padding:3px 6px;border:1.5px solid var(--gray-200);border-radius:6px;font-size:0.85rem"
+                onchange="manualGrade('${s.id}',${n},this.value)">
+            </td>
+          </tr>`;
+        }).join('')}
+      </tbody>
+    </table>
+  `;
+}
 
-  /* ---------- Filtering ---------- */
-  function matchesStatus(d){
-    if(state.statusMode==='todos') return true;
-    if(state.statusMode==='vigente') return d.estatus==='Vigente';
-    return d.estatus==='Vigente' || d.estatus==='Por vencer'; // recomendado
-  }
+function manualGrade(userId, parcial, val) {
+  // Store manual override (simplified: boost XP proportionally)
+  const u = DB.users.find(x=>x.id===userId);
+  if (!u) return;
+  // Could store in a manual override object; here we just log
+  console.log(`Manual grade: ${userId} P${parcial} = ${val}`);
+}
 
-  function filterData(){
-    return DATA.filter(d=>{
-      if(state.q && !d.empresa.toLowerCase().includes(state.q)) return false;
-      if(state.municipio!=='all' && d.municipio!==state.municipio) return false;
-      if(!matchesStatus(d)) return false;
-      if(activeCareers.size>0){
-        const ok = d.carreras.some(c=>activeCareers.has(c));
-        if(!ok) return false;
-      }
-      return true;
-    }).sort((a,b)=>a.empresa.localeCompare(b.empresa,'es'));
-  }
+// ═══════════════════════════════════════════════
+// ADMIN — USERS
+// ═══════════════════════════════════════════════
+function buildUsers() {
+  const list = document.getElementById('userList');
+  list.innerHTML = DB.users.map(u => {
+    const roleClass = u.role==='admin'?'role-admin':u.role==='teacher'?'role-teacher':'role-student';
+    const roleName = u.role==='admin'?'Administrador':u.role==='teacher'?'Docente':'Alumno';
+    return `<div class="user-row">
+      <div>
+        <div class="u-name">${u.fullname}</div>
+        <div class="u-info">@${u.username} • ${roleName}</div>
+      </div>
+      <div class="user-actions">
+        <span class="role-chip ${roleClass}">${roleName}</span>
+        ${u.username!=='admin'?`<button class="btn-sm btn-sm-red" onclick="deleteUser('${u.id}')">🗑</button>`:''}
+        <button class="btn-sm btn-sm-gray" onclick="resetPassModal('${u.id}')">🔑 Reset</button>
+      </div>
+    </div>`;
+  }).join('');
+}
 
-  /* ---------- Rendering ---------- */
-  const grid = document.getElementById('grid');
-  const emptyState = document.getElementById('emptyState');
-  const resultCount = document.getElementById('resultCount');
+function createUser() {
+  const username = document.getElementById('newUsername').value.trim();
+  const password = document.getElementById('newPassword').value.trim();
+  const fullname = document.getElementById('newFullname').value.trim();
+  const role = document.getElementById('newRole').value;
+  if (!username||!password||!fullname) { alert('Completa todos los campos'); return; }
+  if (DB.users.find(u=>u.username===username)) { alert('Ese nombre de usuario ya existe'); return; }
+  DB.users.push({ id:'u'+Date.now(), username, password, fullname, role, xp:0, streak:0, progress:{} });
+  document.getElementById('newUsername').value='';
+  document.getElementById('newPassword').value='';
+  document.getElementById('newFullname').value='';
+  buildUsers();
+}
 
-  function buildCard(item, idx){
-    const card = document.createElement('button');
-    card.type='button';
-    card.className='card';
-    const angle = -6 + (idx % 5)*2;
-    card.style.setProperty('--rot', angle+'deg');
-    const st = STATUS_STYLE[item.estatus] || STATUS_STYLE["Sin dato"];
+function deleteUser(id) {
+  if (!confirm('¿Eliminar este usuario?')) return;
+  const idx = DB.users.findIndex(u=>u.id===id);
+  if (idx>=0) DB.users.splice(idx,1);
+  buildUsers();
+}
 
-    const careersHtml = item.carreras.map(c=>{
-      return '<span class="pill">'+(ICONS[c]||'')+'<span>'+(CAREER_LABEL[c]||c)+'</span></span>';
-    }).join('');
+function resetPassModal(id) {
+  const u = DB.users.find(x=>x.id===id);
+  if (!u) return;
+  openModal('Restablecer contraseña',
+    `<div class="form-field"><label>Nueva contraseña para <strong>${u.fullname}</strong></label>
+    <input type="text" id="mNewPass" value="" placeholder="Nueva contraseña"></div>`,
+    [
+      { label:'Cancelar', cls:'btn-sm btn-sm-gray', fn:'closeModal()' },
+      { label:'Guardar', cls:'btn-sm btn-sm-green', fn:`doResetPass('${id}')` }
+    ]
+  );
+}
 
-    card.innerHTML =
-      '<span class="tab">Ficha '+item.folio+'</span>'+
-      '<span class="stamp" style="color:var(--'+st.color+'); transform:rotate('+angle+'deg); background:var(--'+st.bg+')">'+item.estatus+'</span>'+
-      '<h3 class="empresa">'+escapeHtml(item.empresa)+'</h3>'+
-      '<span class="eyebrow">'+escapeHtml(item.giro)+' · '+escapeHtml(item.tipoInstitucion)+'</span>'+
-      '<div class="careers">'+careersHtml+'</div>'+
-      '<div class="meta">'+
-        '<div class="row">'+PIN+'<span>'+escapeHtml(item.municipio)+', '+escapeHtml(item.estado)+'</span></div>'+
-        '<div class="row">'+TAG+'<span>'+escapeHtml(item.tipoConvenio)+'</span></div>'+
-      '</div>';
+function doResetPass(id) {
+  const u = DB.users.find(x=>x.id===id);
+  const np = document.getElementById('mNewPass').value.trim();
+  if (!np) { alert('Ingresa una contraseña'); return; }
+  u.password = np;
+  closeModal();
+  alert('Contraseña actualizada correctamente');
+}
 
-    card.addEventListener('click', ()=>openDetail(item));
-    return card;
-  }
+// ═══════════════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════════════
+function openModal(title, body, actions) {
+  document.getElementById('modalTitle').textContent = title;
+  document.getElementById('modalBody').innerHTML = body;
+  document.getElementById('modalActions').innerHTML = actions.map(a=>
+    `<button class="${a.cls}" onclick="${a.fn}">${a.label}</button>`
+  ).join('');
+  document.getElementById('modalOverlay').classList.add('show');
+}
 
-  function render(){
-    const list = filterData();
-    grid.innerHTML='';
-    list.forEach((item,idx)=>grid.appendChild(buildCard(item,idx)));
-    emptyState.classList.toggle('show', list.length===0);
-    resultCount.innerHTML = 'Mostrando <strong>'+list.length+'</strong> de '+DATA.length+' empresas registradas';
-  }
+function closeModal() {
+  document.getElementById('modalOverlay').classList.remove('show');
+}
 
-  function escapeHtml(s){
-    if(s===null || s===undefined) return '';
-    return String(s).replace(/[&<>"']/g, c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-  }
+document.getElementById('modalOverlay').addEventListener('click', function(e){
+  if (e.target===this) closeModal();
+});
 
-  /* ---------- Modal ---------- */
-  const dialog = document.getElementById('detail');
-  const detailBody = document.getElementById('detailBody');
-  let lastFocused = null;
+// ENTER key on login
+document.getElementById('loginPass').addEventListener('keydown', e=>{
+  if (e.key==='Enter') doLogin();
+});
 
-  function field(label, value, full){
-    const v = value ? escapeHtml(value) : '<span class="muted">No disponible</span>';
-    return '<div class="detail-item'+(full?' full':'')+'"><label>'+label+'</label><div>'+v+'</div></div>';
-  }
-
-  function openDetail(item){
-    lastFocused = document.activeElement;
-    const st = STATUS_STYLE[item.estatus] || STATUS_STYLE["Sin dato"];
-    document.getElementById('detailFolio').textContent = 'Ficha '+item.folio+' · '+item.estado;
-    document.getElementById('detailTitle').textContent = item.empresa;
-
-    const careersHtml = item.carreras.map(c=>'<span class="pill">'+(ICONS[c]||'')+'<span>'+(CAREER_LABEL[c]||c)+'</span></span>').join('');
-
-    detailBody.innerHTML =
-      '<span class="modal-stamp" style="color:var(--'+st.color+'); background:var(--'+st.bg+')">'+item.estatus+'</span>'+
-      '<div class="detail-grid">'+
-        field('Municipio', item.municipio) +
-        field('Tipo de institución', item.tipoInstitucion) +
-        field('Giro', item.giro) +
-        field('Tipo de convenio', item.tipoConvenio) +
-        field('Vigencia', (item.inicio||'—')+' al '+(item.termino||'—'), true) +
-        field('Domicilio', item.domicilio, true) +
-        field('Contacto', item.contacto) +
-        field('Cargo', item.cargo) +
-        field('Teléfono', item.telefono) +
-        field('Correo', item.email) +
-      '</div>'+
-      '<div class="detail-item full" style="margin-bottom:10px;"><label>Especialidades vinculadas</label><div class="careers" style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px;">'+careersHtml+'</div></div>'+
-      (item.observaciones ? '<div class="detail-item full"><label>Observaciones</label><div class="obs-box">'+escapeHtml(item.observaciones)+'</div></div>' : '');
-
-    dialog.showModal();
-  }
-
-  document.getElementById('modalCloseBtn').addEventListener('click', ()=>dialog.close());
-  dialog.addEventListener('click', (e)=>{ if(e.target===dialog) dialog.close(); });
-  dialog.addEventListener('close', ()=>{ if(lastFocused) lastFocused.focus(); });
-
-  /* ---------- Init ---------- */
-  render();
-})();
+// Init
+document.getElementById('loginUser').focus();
 </script>
 </body>
 </html>
